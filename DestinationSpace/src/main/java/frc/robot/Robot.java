@@ -11,9 +11,14 @@ import edu.wpi.first.wpilibj.TimedRobot;
 
 public class Robot extends TimedRobot 
 {
+  private TankDrive tank;
+  private Gamepad gamepad;
+
   @Override
   public void robotInit() 
   {
+    tank = new TankDrive(0, 1, 2, 3);
+    gamepad = new Gamepad(0);
   }
 
   @Override
@@ -34,6 +39,7 @@ public class Robot extends TimedRobot
   @Override
   public void teleopPeriodic() 
   {
+    tank.update(gamepad);
   }
 
   @Override
