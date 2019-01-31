@@ -22,7 +22,7 @@ public class TankDrive
         m_frontLeft.set(gamepad.sticks.LEFT_Y.getRaw());
         m_backLeft.set(gamepad.sticks.LEFT_Y.getRaw());
 
-        m_frontRight.set(gamepad.sticks.RIGHT_Y.getRaw());
-        m_backRight.set(gamepad.sticks.RIGHT_Y.getRaw());
+        m_frontRight.set(-gamepad.sticks.RIGHT_Y.getRaw());
+        m_backRight.set(-gamepad.sticks.RIGHT_Y.getRaw());
     }
 }

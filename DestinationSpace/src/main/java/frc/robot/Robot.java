@@ -17,7 +17,7 @@ public class Robot extends TimedRobot
   @Override
   public void robotInit() 
   {
-    tank = new TankDrive(0, 1, 2, 3);
+    tank = new TankDrive(2, 3, 0, 1);
     gamepad = new Gamepad(0);
   }
 

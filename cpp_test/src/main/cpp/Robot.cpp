@@ -15,8 +15,8 @@ void Robot::RobotInit() {
   frontRight = new frc::Spark(0);
   backRight = new frc::Spark(1);
 
-  // camera = frc::CameraServer::GetInstance()->StartAutomaticCapture();
-  // camera.SetResolution(640, 480);
+  camera = frc::CameraServer::GetInstance()->StartAutomaticCapture(0);
+  camera.SetResolution(640, 480);
   // cvSink = frc::CameraServer::GetInstance()->GetVideo();
   // outputStreamStd = frc::CameraServer::GetInstance()->PutVideo("Gray", 640, 480);
   
@@ -52,13 +52,22 @@ void Robot::AutonomousPeriodic() {
 
 void Robot::TeleopInit() {}
 
-void Robot::TeleopPeriodic() {
-  
-  frontRight->Set(gamepad->sticks->LEFT_Y->getRaw());
-  backRight->Set(gamepad->sticks->LEFT_Y->getRaw());
+#include <math.h>
 
-  frontLeft->Set(-gamepad->sticks->RIGHT_Y->getRaw());
-  backLeft->Set(-gamepad->sticks->RIGHT_Y->getRaw());
+void Robot::TeleopPeriodic() {
+  double rightY = gamepad->sticks->LEFT_X->getRaw();
+  double leftX = -gamepad->sticks->RIGHT_Y->getRaw();
+
+  double leftPowerRaw = rightY - leftX;
+  double rightPowerRaw = rightY + leftX;
+  double leftPower = signum(leftPowerRaw) * min(abs(leftPowerRaw), 1);
+  double rightPower = signum(rightPowerRaw) * min(abs(rightPowerRaw), 1);
+
+  frontRight->Set(rightPower * .50);
+  backRight->Set(rightPower * .50);
+
+  frontLeft->Set(leftPower * .50);
+  backLeft->Set(leftPower * .50);
 
   // cvSink.GrabFrame(source);
   // cvtColor(source, output, cv::COLOR_BGR2GRAY);
