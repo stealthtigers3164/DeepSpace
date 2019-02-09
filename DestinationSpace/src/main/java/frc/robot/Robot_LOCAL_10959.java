@@ -11,28 +11,14 @@ import edu.wpi.first.wpilibj.TimedRobot;
 
 public class Robot extends TimedRobot 
 {
-  private Ultrasonic ultra;
   private TankDrive tank;
   private Gamepad gamepad;
-  private Limelight limelight;
-  private Encoder encoder;
-  private InOut inputoutput;
-  private LinearSlide linear;
 
   @Override
   public void robotInit() 
   {
-<<<<<<< Updated upstream
     tank = new TankDrive(2, 3, 0, 1);
-=======
-    ultra = new ultra(one, two);
-    tank = new TankDrive(0, 1, 2, 3);
-    limelight = new Limelight();
->>>>>>> Stashed changes
     gamepad = new Gamepad(0);
-    linear = new LinearSlide(rightPort, leftPort);
-    inputoutput = new InOut(forwardChannel, reverseChannel, leftSpark, rightSpark);
-    encoder = new Encoder(inputoutput, linear, tank);
   }
 
   @Override
@@ -53,8 +39,7 @@ public class Robot extends TimedRobot
   @Override
   public void teleopPeriodic() 
   {
-    tank.update(gamepad, limelight.getAdjustments(), encoder.getState());
-    inputoutput.update(gamepad, encoder.getState());
+    tank.update(gamepad);
   }
 
   @Override

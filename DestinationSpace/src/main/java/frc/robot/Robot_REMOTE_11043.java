@@ -22,13 +22,9 @@ public class Robot extends TimedRobot
   @Override
   public void robotInit() 
   {
-<<<<<<< Updated upstream
-    tank = new TankDrive(2, 3, 0, 1);
-=======
     ultra = new ultra(one, two);
     tank = new TankDrive(0, 1, 2, 3);
     limelight = new Limelight();
->>>>>>> Stashed changes
     gamepad = new Gamepad(0);
     linear = new LinearSlide(rightPort, leftPort);
     inputoutput = new InOut(forwardChannel, reverseChannel, leftSpark, rightSpark);
