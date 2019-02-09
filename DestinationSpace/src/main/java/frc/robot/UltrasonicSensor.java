@@ -7,12 +7,12 @@ public class UltrasonicSensor{
     private Ultrasonic ultra;
 
     public Ultrasonic(int one, int two){
-        ultra = new Ultrasoni(one, two)
+        ultra = new Ultrasonic(one, two)
     }
 
     public double adjustDistance(double distance){
         double range = ultra.getRangeInches();
         distance_adjust = (range - distance) * 0.1;
-        return power;
+        return distance_adjust;
     }
 }

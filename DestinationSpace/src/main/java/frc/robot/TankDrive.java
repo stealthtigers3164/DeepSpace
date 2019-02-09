@@ -26,10 +26,6 @@ public class TankDrive
             m_frontLeft.set((gamepad.sticks.LEFT_Y.getRaw() + steering_adjust + distance_adjust);
             m_backLeft.set((gamepad.sticks.LEFT_Y.getRaw() + steering_adjust + distance_adjust);
 
-<<<<<<< Updated upstream
-        m_frontRight.set(-gamepad.sticks.RIGHT_Y.getRaw());
-        m_backRight.set(-gamepad.sticks.RIGHT_Y.getRaw());
-=======
             m_frontRight.set((gamepad.sticks.RIGHT_Y.getRaw() - steering_adjust + distance_adjust);
             m_backRight.set((gamepad.sticks.RIGHT_Y.getRaw() - steering_adjust + distance_adjust);
         }
@@ -47,6 +43,5 @@ public class TankDrive
         m_backRight.set(0.0);
         m_frontLeft.set(0.0);
         m_frontRight.set(0.0);
->>>>>>> Stashed changes
     }
 }
