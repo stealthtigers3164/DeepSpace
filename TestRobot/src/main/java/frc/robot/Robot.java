@@ -31,7 +31,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     tank = new TankDrive(2, 3, 0, 1);
-    ultra = new Ultrasonic(one, two);
+    ultra = new Ultrasonic(0, 1);
     limelight = new Limelight(tank);
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);

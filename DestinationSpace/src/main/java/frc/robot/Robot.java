@@ -23,7 +23,7 @@ public class Robot extends TimedRobot
   public void robotInit() 
   {
     tank = new TankDrive(2, 3, 0, 1);
-    ultra = new Ultrasonic(one, two);
+    ultra = new Ultrasonic(o0, 1);
     limelight = new Limelight(tank);
     gamepad = new Gamepad(0);
     linear = new LinearSlide(rightPort, leftPort);
