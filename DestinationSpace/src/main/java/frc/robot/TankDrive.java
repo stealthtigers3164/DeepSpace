@@ -9,8 +9,10 @@ public class TankDrive
     private Spark m_frontRight;
     private Spark m_backRight;
     private Ultrasonic ultra;
+    private LimeLight limeLight;
 
-    public TankDrive(int frontLeft, int backLeft, int frontRight, int backRight, Ultrasonic ultrasonic)
+    public TankDrive(int frontLeft, int backLeft, int frontRight, int backRight, 
+                     Ultrasonic ultrasonic, LimeLight limeLight)
     {
         m_frontLeft = new Spark(frontLeft);
         m_backLeft = new Spark(backLeft);
@@ -18,10 +20,13 @@ public class TankDrive
         m_backRight = new Spark(backRight);
         ultra = ultrasonic;
         ultra.setAutomaticMode(true);
+        this.limeLight = limeLight;
     }
 
-    public void update(Gamepad gamepad, double steering_adjust, boolean encoderState, double distance_adjust)
+    public void update(Gamepad gamepad, boolean encoderState/* double distance_adjust */)
     {
+        float steering_adjust = lime.align(gamepad);
+
         if(!encoderState){
             m_frontLeft.set((gamepad.sticks.LEFT_Y.getRaw() + steering_adjust + distance_adjust);
             m_backLeft.set((gamepad.sticks.LEFT_Y.getRaw() + steering_adjust + distance_adjust);
@@ -31,8 +36,9 @@ public class TankDrive
         }
     }
 
-    public void adjust(double distance)
+    public void adjust(/* double distance */)
     {
+        //NOTE: Why did you pass in the distance when the ultrasonic is in here
         while(!(distance + 0.1 > range && distance - 0.1 < range)){
             m_backLeft.set(ultra.adjustDistance());
             m_backRight.set(ultra.adjustDistance());

@@ -39,6 +39,8 @@ public class Encoder{
         outputting = true;
         linear.update(1.0, 0.0);
         double currentHeight = encoder.getDistance();
+        //TODO(alex): You cannot have this type of while loop
+        //            Change this to an if statement
         while(!(currentHeight => height)){
             currentHeight = encoder.getDistance();
         }
@@ -53,6 +55,8 @@ public class Encoder{
         outputting = true;
         linear.update(1.0, 0.0);
         double currentHeight = encoder.getDistance();
+        //TODO(alex): You cannot have this type of while loop
+        //            Change this to an if statement
         while(!(currentHeight => height)){
             currentHeight = encoder.getDistance();
         }

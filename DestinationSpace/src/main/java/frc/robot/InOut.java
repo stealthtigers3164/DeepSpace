@@ -3,11 +3,16 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
+//Intake and the Hatch mechanism
 public class InOut{
 
+    //Intake left motor
     private Spark left;
+    //Intake right motor
     private Spark right;
+    //Hatch piston
     private DoubleSolenoid hatchPiston;
+    //Whether or not the hatch piston is extended or not
     private boolean extended = false;
 
     public Output(int forwardChannel, int reverseChannel, int leftSpark, int rightSpark){
@@ -21,6 +26,7 @@ public class InOut{
         right.set(power);
     }
 
+    //Move the hatch piston in or out depending on whether or not it is extended
     public void hatch(){
         if(extended){
             extended = false;
@@ -31,6 +37,7 @@ public class InOut{
         }
     }
 
+    //Set power to the intake motors based on the gamepad values
     public void update(Gamepad gamepad, boolean outputting){
         if(!outputting){
             if(gamepad.triggers.getRightPressed() && !gamepad.triggers.getLeftPressed()){ball(-1.0);}

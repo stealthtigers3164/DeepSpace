@@ -22,10 +22,12 @@ public class Robot extends TimedRobot
   @Override
   public void robotInit() 
   {
-    tank = new TankDrive(2, 3, 0, 1);
-    ultra = new Ultrasonic(o0, 1);
-    limelight = new Limelight(tank);
     gamepad = new Gamepad(0);
+
+    limelight = new Limelight();
+    ultra = new Ultrasonic(o0, 1);
+    tank = new TankDrive(2, 3, 0, 1, ultra, limelight);
+
     linear = new LinearSlide(rightPort, leftPort);
     inputoutput = new InOut(forwardChannel, reverseChannel, leftSpark, rightSpark);
     encoder = new Encoder(inputoutput, linear, tank);
@@ -49,7 +51,7 @@ public class Robot extends TimedRobot
   @Override
   public void teleopPeriodic() 
   {
-    tank.update(gamepad, limelight.getAdjustments(), encoder.getState());
+    tank.update(gamepad, encoder.getState());
     inputoutput.update(gamepad, encoder.getState());
   }
 
