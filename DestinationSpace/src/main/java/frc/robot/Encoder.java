@@ -5,10 +5,11 @@ import edu.wpi.first.wpilibj.Encoder;
 public class Encoder{
     
     public Encoder encoder;
-    public boolean outputting;
     private Linearslide linear;
     private InOut inout;
     private TankDrive tank;
+    private int targetHeight;
+    private boolean isBall;
 
     public Encoder(int aChannel, int bChannel, LinearSlide linearslide, InOut inputoutput, TankDrive tankdrive){
         encoder = new Encoder(aChannel, bChannel);
@@ -16,57 +17,61 @@ public class Encoder{
         inout = inputoutput;
         tank = tankdrive;
         //set distance to distance per output gear rotation divided by 5356.8
-        encoder.setDistancePerPulse()
+        encoder.setDistancePerPulse();
+
+        targetHeight = 0;
+        isBall = false;
     }
 
     public void update(Gamepad gamepad){
         if(gamepad.buttons.BUTTON_A.isOn()){
-            ballOutput(/*ball level one height*/);
+            targetHeight = 0/*ball level one height*/;
+            isBall = true;
         } else if(gamepad.buttons.BUTTON_B.isOn()){
-            ballOutput(/*ball level two height*/);
+            targetHeight = 0/*ball level one height*/;
+            isBall = true;
         } else if(gamepad.buttons.BUTTON_Y.isOn()){
-            ballOutput(/*ball level three height*/);
+            targetHeight = 0/*ball level one height*/;
+            isBall = true;
         } else if(gamepad.tophat.getDir() == TopHatDir.DOWN){
-            hatchOutput(/*hatch level one height*/);
+            targetHeight = 0/*ball level one height*/;
+            isBall = false;
         } else if(gamepad.tophat.getDir() == TopHatDir.LEFT){
-            hatchOutput(/*hatch level two height*/);
+            targetHeight = 0/*ball level one height*/;
+            isBall = false;
         } else if(gamepad.tophat.getDir() == TopHatDir.UP){
-            hatchOutput(/*hatch level three height*/);
+            targetHeight = 0/*ball level one height*/;
+            isBall = false;
+        }
+
+        if (targetHeight > 0) {
+            if (isBall) {
+                ballOutput(targetHeight);
+            } else {
+                hatchOutput(targetHeight);
+            }
         }
     }
 
     public void ballOutput(int height){
-        outputting = true;
-        linear.update(1.0, 0.0);
         double currentHeight = encoder.getDistance();
-        //TODO(alex): You cannot have this type of while loop
-        //            Change this to an if statement
-        while(!(currentHeight => height)){
-            currentHeight = encoder.getDistance();
-        }
-        linear.update(0.0, 0.0);
-        tank.adjust(12.75);
-        inout.ball(-1.0);
-        outputting = false;
+        if (currentHeight < height){
+            linear.update(1.0, 0.0);
+            tank.adjust();
+        } else {
+            linear.update(0.0, 0.0);
+            inout.ball(-1.0);
         }
     }
 
     public void hatchOutput(int height){
-        outputting = true;
-        linear.update(1.0, 0.0);
         double currentHeight = encoder.getDistance();
-        //TODO(alex): You cannot have this type of while loop
-        //            Change this to an if statement
-        while(!(currentHeight => height)){
-            currentHeight = encoder.getDistance();
+        if (currentHeight < height){
+            linear.update(1.0, 0.0);
+            tank.adjust();
+        } else {
+            linear.update(0.0, 0.0);
+            inout.hatch();
         }
-        linear.update(0.0, 0.0);
-        tank.adjust(/*hatch distance*/);
-        inout.ball(-1.0);
-        outputting = false;
-    }
-
-    public boolean getState(){
-        return outputting;
     }
 }

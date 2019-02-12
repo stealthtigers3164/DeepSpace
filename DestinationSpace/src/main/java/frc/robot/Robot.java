@@ -51,6 +51,8 @@ public class Robot extends TimedRobot
   @Override
   public void teleopPeriodic() 
   {
+    inputoutput.resetHatch();
+
     tank.update(gamepad, encoder.getState());
     inputoutput.update(gamepad, encoder.getState());
   }

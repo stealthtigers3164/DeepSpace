@@ -15,16 +15,11 @@ public class Limelight
 
     public Limelight()
     {
-        //NOTE(Daniel): Moved this initialization may not need to be in the constructor
-        //              However, since it may, its in here 
         table = NetworkTableInstance.getDefault().getTable("limelight")
         tx = 0;
     }
 
     public float align(Gamepad gamepad){
-        if(gamepad.buttons.BUTTON_X.isOn()){
-            return 0;
-        }
         //NOTE: Getting the tx variable from network tables is not a one time thing
         //Once the value changes you have to get it again
         tx = table.getEntry("tx");

@@ -25,9 +25,15 @@ public class TankDrive
 
     public void update(Gamepad gamepad, boolean encoderState/* double distance_adjust */)
     {
-        float steering_adjust = lime.align(gamepad);
+        float steering_adjust = 0;
+
+        if(gamepad.buttons.BUTTON_X.isOn()){
+            steering_adjust = lime.align(gamepad)
+        }
 
         if(!encoderState){
+            double distanceAdjust = ultra.adjustDistance();
+
             m_frontLeft.set((gamepad.sticks.LEFT_Y.getRaw() + steering_adjust + distance_adjust);
             m_backLeft.set((gamepad.sticks.LEFT_Y.getRaw() + steering_adjust + distance_adjust);
 
@@ -36,18 +42,20 @@ public class TankDrive
         }
     }
 
-    public void adjust(/* double distance */)
+    public void adjust()
     {
         //NOTE: Why did you pass in the distance when the ultrasonic is in here
-        while(!(distance + 0.1 > range && distance - 0.1 < range)){
-            m_backLeft.set(ultra.adjustDistance());
-            m_backRight.set(ultra.adjustDistance());
-            m_frontLeft.set(ultra.adjustDistance());
-            m_frontRight.set(ultra.adjustDistance());
+        if (!(distance + 0.1 > range && distance - 0.1 < range)){
+            double distanceAdjust = ultra.adjustDistance();
+            m_backLeft.set(distanceAdjust);
+            m_backRight.set(distanceAdjust);
+            m_frontLeft.set(distanceAdjust);
+            m_frontRight.set(distanceAdjust);
+        } else {
+            m_backLeft.set(0.0);
+            m_backRight.set(0.0);
+            m_frontLeft.set(0.0);
+            m_frontRight.set(0.0);
         }
-        m_backLeft.set(0.0);
-        m_backRight.set(0.0);
-        m_frontLeft.set(0.0);
-        m_frontRight.set(0.0);
     }
 }
