@@ -15,26 +15,31 @@ public class Limelight
 
     public Limelight()
     {
-        table = NetworkTableInstance.getDefault().getTable("limelight")
+        table = NetworkTableInstance.getDefault().getTable("limelight");
         tx = 0;
     }
 
-    public float align(Gamepad gamepad){
+    public double align(Gamepad gamepad){
         //NOTE: Getting the tx variable from network tables is not a one time thing
         //Once the value changes you have to get it again
-        tx = table.getEntry("tx");
+        tx = table.getEntry("tx").getDouble(0);
 
         double heading_error = -tx;
 
         if(tx > 1.0){
-            return Kp * heading_error - min_command;
+            return tx * heading_error - min_command;
         }
         else if(tx < 1.0){
-            return  Kp * heading_error + min_command;
+            return  tx * heading_error + min_command;
         }
+        return 0;
     }
 
     public double getAdjustments() {
         return steering_adjust;
+    }
+
+    public double getTX() {
+        return tx;
     }
 }

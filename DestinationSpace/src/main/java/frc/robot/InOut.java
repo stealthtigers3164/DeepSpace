@@ -49,13 +49,13 @@ public class InOut{
 
     //Set power to the intake motors based on the gamepad values
     public void update(Gamepad gamepad){
-        if(gamepad.triggers.getRightPressed() && !gamepad.triggers.getLeftPressed()) {
+        if(gamepad.trigger.getRightPressed(true) && !gamepad.trigger.getLeftPressed(true)) {
             ball(-1.0);
         }
-        else if(!gamepad.triggers.getRightPressed() && gamepad.triggers.getLeftPressed()) {
+        else if(!gamepad.trigger.getRightPressed(true) && gamepad.trigger.getLeftPressed(true)) {
             ball(1.0);
         }
-        else if(gamepad.triggers.getRightPressed() && gamepad.triggers.getLeftPressed()) {
+        else if(gamepad.trigger.getRightPressed(true) && gamepad.trigger.getLeftPressed(true)) {
             hatch();
         }
     }

@@ -8,45 +8,49 @@ public class TankDrive
     private Spark m_backLeft;
     private Spark m_frontRight;
     private Spark m_backRight;
-    private Ultrasonic ultra;
-    private LimeLight limeLight;
+    private UltrasonicSensor ultra;
+    private Limelight limeLight;
+    private double range;
 
     public TankDrive(int frontLeft, int backLeft, int frontRight, int backRight, 
-                     Ultrasonic ultrasonic, LimeLight limeLight)
+                     UltrasonicSensor ultrasonic, Limelight limeLight)
     {
         m_frontLeft = new Spark(frontLeft);
         m_backLeft = new Spark(backLeft);
         m_frontRight = new Spark(frontRight);
         m_backRight = new Spark(backRight);
         ultra = ultrasonic;
-        ultra.setAutomaticMode(true);
         this.limeLight = limeLight;
+
+        this.range = 10;
     }
 
-    public void update(Gamepad gamepad, boolean encoderState/* double distance_adjust */)
+    public void update(Gamepad gamepad, boolean encoderState)
     {
-        float steering_adjust = 0;
+        double steering_adjust = 0;
 
         if(gamepad.buttons.BUTTON_X.isOn()){
-            steering_adjust = lime.align(gamepad)
+            steering_adjust = limeLight.align(gamepad);
         }
 
         if(!encoderState){
-            double distanceAdjust = ultra.adjustDistance();
+            double distanceAdjust = ultra.getDistance();
 
-            m_frontLeft.set((gamepad.sticks.LEFT_Y.getRaw() + steering_adjust + distance_adjust);
-            m_backLeft.set((gamepad.sticks.LEFT_Y.getRaw() + steering_adjust + distance_adjust);
+            m_frontLeft.set(gamepad.sticks.LEFT_Y.getRaw() + steering_adjust + distanceAdjust);
+            m_backLeft.set(gamepad.sticks.LEFT_Y.getRaw() + steering_adjust + distanceAdjust);
 
-            m_frontRight.set((gamepad.sticks.RIGHT_Y.getRaw() - steering_adjust + distance_adjust);
-            m_backRight.set((gamepad.sticks.RIGHT_Y.getRaw() - steering_adjust + distance_adjust);
+            m_frontRight.set(gamepad.sticks.RIGHT_Y.getRaw() - steering_adjust + distanceAdjust);
+            m_backRight.set(gamepad.sticks.RIGHT_Y.getRaw() - steering_adjust + distanceAdjust);
         }
     }
 
     public void adjust()
     {
+        double distance = ultra.getDistanceInches();
+
         //NOTE: Why did you pass in the distance when the ultrasonic is in here
-        if (!(distance + 0.1 > range && distance - 0.1 < range)){
-            double distanceAdjust = ultra.adjustDistance();
+        if (distance > range){
+            double distanceAdjust = ultra.getDistance();
             m_backLeft.set(distanceAdjust);
             m_backRight.set(distanceAdjust);
             m_frontLeft.set(distanceAdjust);

@@ -1,23 +1,23 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Encoder;
+import frc.robot.Gamepad.TopHatDir;
 
 public class Encoder{
     
-    public Encoder encoder;
-    private Linearslide linear;
+    public edu.wpi.first.wpilibj.Encoder encoder;
+    private LinearSlide linear;
     private InOut inout;
     private TankDrive tank;
     private int targetHeight;
     private boolean isBall;
 
     public Encoder(int aChannel, int bChannel, LinearSlide linearslide, InOut inputoutput, TankDrive tankdrive){
-        encoder = new Encoder(aChannel, bChannel);
+        encoder = new edu.wpi.first.wpilibj.Encoder(aChannel, bChannel);
         linear = linearslide;
         inout = inputoutput;
         tank = tankdrive;
         //set distance to distance per output gear rotation divided by 5356.8
-        encoder.setDistancePerPulse();
+        encoder.setDistancePerPulse(10);
 
         targetHeight = 0;
         isBall = false;

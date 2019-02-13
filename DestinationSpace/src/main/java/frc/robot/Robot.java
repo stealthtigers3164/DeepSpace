@@ -8,10 +8,11 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TimedRobot 
 {
-  private Ultrasonic ultra;
+  private UltrasonicSensor ultra;
   private TankDrive tank;
   private Gamepad gamepad;
   private Limelight limelight;
@@ -22,15 +23,16 @@ public class Robot extends TimedRobot
   @Override
   public void robotInit() 
   {
-    gamepad = new Gamepad(0);
+    // gamepad = new Gamepad(0);
 
     limelight = new Limelight();
-    ultra = new Ultrasonic(o0, 1);
-    tank = new TankDrive(2, 3, 0, 1, ultra, limelight);
 
-    linear = new LinearSlide(rightPort, leftPort);
-    inputoutput = new InOut(forwardChannel, reverseChannel, leftSpark, rightSpark);
-    encoder = new Encoder(inputoutput, linear, tank);
+    ultra = new UltrasonicSensor(0, 1);
+    // tank = new TankDrive(2, 3, 0, 1, ultra, limelight);
+
+    // linear = new LinearSlide(rightPort, leftPort);
+    // inputoutput = new InOut(forwardChannel, reverseChannel, leftSpark, rightSpark);
+    // encoder = new Encoder(inputoutput, linear, tank);
   }
 
   @Override
@@ -51,10 +53,14 @@ public class Robot extends TimedRobot
   @Override
   public void teleopPeriodic() 
   {
-    inputoutput.resetHatch();
+    SmartDashboard.putNumber("tx", limelight.getTX());
+    SmartDashboard.putNumber("distance", ultra.getDistance());
+    SmartDashboard.putNumber("distance inches", ultra.getDistanceInches());
 
-    tank.update(gamepad, encoder.getState());
-    inputoutput.update(gamepad, encoder.getState());
+    // inputoutput.resetHatch();
+
+    // tank.update(gamepad, encoder.getState());
+    // inputoutput.update(gamepad, encoder.getState());
   }
 
   @Override
