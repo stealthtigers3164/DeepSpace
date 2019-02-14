@@ -17,8 +17,11 @@ public class Robot extends TimedRobot
   private Gamepad gamepad;
   private Limelight limelight;
   private Encoder encoder;
-  private InOut inputoutput;
+  private Intake intake;
+  private Hatch hatch;
   private LinearSlide linear;
+
+  private AutoAlign alignment;
 
   @Override
   public void robotInit() 
@@ -31,8 +34,10 @@ public class Robot extends TimedRobot
     // tank = new TankDrive(2, 3, 0, 1, ultra, limelight);
 
     // linear = new LinearSlide(rightPort, leftPort);
-    // inputoutput = new InOut(forwardChannel, reverseChannel, leftSpark, rightSpark);
+    // intake = new Intake(leftSpark, rightSpark);
+    // hatch = new Hatch(forwardChannel, reverseChannel);
     // encoder = new Encoder(inputoutput, linear, tank);
+    alignment = new AutoAlign(0, 1);
   }
 
   @Override
@@ -58,7 +63,7 @@ public class Robot extends TimedRobot
     SmartDashboard.putNumber("distance inches", ultra.getDistanceInches());
 
     // inputoutput.resetHatch();
-
+    // alignment.update(gamepad, linear, intake, hatch);
     // tank.update(gamepad, encoder.getState());
     // inputoutput.update(gamepad, encoder.getState());
   }
