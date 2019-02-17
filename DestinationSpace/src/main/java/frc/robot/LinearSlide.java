@@ -13,10 +13,15 @@ public class LinearSlide
         m_left = new Spark(leftPort);
     }
 
-    public void update(double rightBumper, double leftBumper)
+    public void update(Gamepad gamepad2)
     {//NOTE: the left bumper moves the left down and the right up
-        double power = rightBumper - leftBumper;
+        double power = gamepad2.sticks.LEFT_Y.getRaw();
         m_right.set(power);
         m_left.set(power);
+    }
+
+    public void update(double x, double y) {
+        m_right.set(x);
+        m_left.set(x);
     }
 }

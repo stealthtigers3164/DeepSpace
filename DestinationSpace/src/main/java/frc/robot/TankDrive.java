@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TankDrive 
 {
@@ -22,44 +23,50 @@ public class TankDrive
         ultra = ultrasonic;
         this.limeLight = limeLight;
 
-        this.range = 10;
+        this.range = 17;
     }
 
-    public void update(Gamepad gamepad, boolean encoderState)
+    public void update(Gamepad gamepad, boolean shouldAlign)
     {
         double steering_adjust = 0;
+        double distance_adjust = 0;
 
-        if(gamepad.buttons.BUTTON_X.isOn()){
-            steering_adjust = limeLight.align(gamepad);
-        }
+        if(shouldAlign) {
+            steering_adjust = Math.min(limeLight.getTX(), .5) ;
+            distance_adjust = Math.min(ultra.getDistanceInches() / 100, .5);
 
-        if(!encoderState){
-            double distanceAdjust = ultra.getDistance();
+            SmartDashboard.putBoolean("Is working", true);
 
-            m_frontLeft.set(gamepad.sticks.LEFT_Y.getRaw() + steering_adjust + distanceAdjust);
-            m_backLeft.set(gamepad.sticks.LEFT_Y.getRaw() + steering_adjust + distanceAdjust);
+            if (distance_adjust > 1) {
+                distance_adjust = 1;
+            }
 
-            m_frontRight.set(gamepad.sticks.RIGHT_Y.getRaw() - steering_adjust + distanceAdjust);
-            m_backRight.set(gamepad.sticks.RIGHT_Y.getRaw() - steering_adjust + distanceAdjust);
-        }
-    }
-
-    public void adjust()
-    {
-        double distance = ultra.getDistanceInches();
-
-        //NOTE: Why did you pass in the distance when the ultrasonic is in here
-        if (distance > range){
-            double distanceAdjust = ultra.getDistance();
-            m_backLeft.set(distanceAdjust);
-            m_backRight.set(distanceAdjust);
-            m_frontLeft.set(distanceAdjust);
-            m_frontRight.set(distanceAdjust);
+            if (ultra.getDistanceInches() <= range) {
+                distance_adjust = 0;
+                steering_adjust = 0;
+            }
         } else {
-            m_backLeft.set(0.0);
-            m_backRight.set(0.0);
-            m_frontLeft.set(0.0);
-            m_frontRight.set(0.0);
+            SmartDashboard.putBoolean("Is working", false);
         }
+
+        double rightY = gamepad.sticks.RIGHT_X.getRaw();
+        double leftX = -gamepad.sticks.LEFT_Y.getRaw();
+      
+        double leftPowerRaw = rightY - leftX;
+        double rightPowerRaw = rightY + leftX;
+        double leftPower = Math.signum(leftPowerRaw) * Math.min(Math.abs(leftPowerRaw), 1);
+        double rightPower = Math.signum(rightPowerRaw) * Math.min(Math.abs(rightPowerRaw), 1);      
+
+        double leftMotorPower = Math.min(leftPower + steering_adjust + distance_adjust, 1);
+        double rightMotorPower = Math.min(rightPower + steering_adjust - distance_adjust, 1);
+
+        SmartDashboard.putNumber("leftMotorPower", leftMotorPower);
+        SmartDashboard.putNumber("rightMotorPower", rightMotorPower);
+
+        m_frontLeft.set(leftMotorPower);
+        m_backLeft.set(leftMotorPower);
+
+        m_frontRight.set(rightMotorPower);
+        m_backRight.set(rightMotorPower);
     }
 }

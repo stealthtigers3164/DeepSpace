@@ -1,6 +1,5 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 //Hatch mechanism
@@ -17,7 +16,7 @@ public class Hatch {
     }
 
     //Move the hatch piston in or out depending on whether or not it is extended
-    public void hatch(){
+    public void hold(){
         if (hasBeenUsed) {
             return;
         } else {
@@ -27,19 +26,29 @@ public class Hatch {
         hatchPiston.set(DoubleSolenoid.Value.kForward);
     }
 
+    //Release the hatch
+    public void release() {
+        if (hasBeenUsed) {
+            return;
+        } else {
+            hasBeenUsed = true;
+        }
+
+        hatchPiston.set(DoubleSolenoid.Value.kReverse);
+    }
+
     //Set power to the intake motors based on the gamepad values
     public void update(Gamepad gamepad){
-        if (gamepad.trigger.getRightPressed(true) && gamepad.trigger.getLeftPressed(true)) {
-            hatch();
+        if (gamepad.trigger.getRightPressed(true)) {
+            hold();
+        }
+        if (gamepad.trigger.getLeftPressed(true)) {
+            release();
         }
     }
 
     //Reset the hatch to the in position
-    public void resetHatch() {
-        if (hasBeenUsed) {
-            hatchPiston.set(DoubleSolenoid.Value.kReverse);
-        }
-
+    public void reset() {
         hasBeenUsed = false;
     }
 }

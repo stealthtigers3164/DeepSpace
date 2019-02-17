@@ -7,37 +7,43 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TimedRobot 
 {
+  private Gamepad gamepad1;
+  private Gamepad gamepad2;
+
   private UltrasonicSensor ultra;
   private TankDrive tank;
-  private Gamepad gamepad;
+  
   private Limelight limelight;
-  private Encoder encoder;
+  private LinearSlide linear;
+  private Arm arm;
   private Intake intake;
   private Hatch hatch;
-  private LinearSlide linear;
 
   private AutoAlign alignment;
 
   @Override
   public void robotInit() 
   {
-    // gamepad = new Gamepad(0);
+    gamepad1 = new Gamepad(0);
+    gamepad2 = new Gamepad(1);
 
     limelight = new Limelight();
 
-    ultra = new UltrasonicSensor(0, 1);
-    // tank = new TankDrive(2, 3, 0, 1, ultra, limelight);
+    ultra = new UltrasonicSensor(2, 3);
+    tank = new TankDrive(9, 8, 7, 6, ultra, limelight);
+    CameraServer.getInstance().startAutomaticCapture();
 
-    // linear = new LinearSlide(rightPort, leftPort);
-    // intake = new Intake(leftSpark, rightSpark);
-    // hatch = new Hatch(forwardChannel, reverseChannel);
-    // encoder = new Encoder(inputoutput, linear, tank);
-    alignment = new AutoAlign(0, 1);
+    linear = new LinearSlide(0, 1);
+    arm = new Arm(4);
+    intake = new Intake(3, 2);
+    hatch = new Hatch(4, 5);
+    alignment = new AutoAlign(0, 1, linear, intake, hatch);
   }
 
   @Override
@@ -58,14 +64,14 @@ public class Robot extends TimedRobot
   @Override
   public void teleopPeriodic() 
   {
-    SmartDashboard.putNumber("tx", limelight.getTX());
-    SmartDashboard.putNumber("distance", ultra.getDistance());
-    SmartDashboard.putNumber("distance inches", ultra.getDistanceInches());
+    hatch.reset();
 
-    // inputoutput.resetHatch();
-    // alignment.update(gamepad, linear, intake, hatch);
-    // tank.update(gamepad, encoder.getState());
-    // inputoutput.update(gamepad, encoder.getState());
+    linear.update(gamepad2);
+    arm.update(gamepad2);
+    intake.update(gamepad1);
+    hatch.update(gamepad2);
+    alignment.update(gamepad1);
+    tank.update(gamepad1, gamepad1.buttons.BUTTON_X.isOn());
   }
 
   @Override

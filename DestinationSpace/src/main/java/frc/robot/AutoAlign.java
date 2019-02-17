@@ -1,21 +1,32 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Encoder;
+import frc.robot.Gamepad.TopHatDir;
 
 public class AutoAlign {
-    public Encoder encoder;
+    private Encoder encoder;
+    private LinearSlide slide;
+    private Intake intake;
+    private Hatch hatch;
+
     private int targetHeight;
     private boolean isBall;
 
-    public AutoAlign(int channelA, int channelB) {
+    public AutoAlign(int channelA, int channelB, LinearSlide slide, Intake intake, Hatch hatch) {
         encoder = new Encoder(channelA, channelB);
         encoder.setDistancePerPulse(10);
+
+        this.slide = slide;
+        this.intake = intake;
+        this.hatch = hatch;
 
         targetHeight = 0;
         isBall = false;
     }
 
-    public void update(Gamepad gamepad, LinearSlide slide, Intake intake, Hatch hatch){
+    public boolean update(Gamepad gamepad){
+        boolean result = false;
+
         if (gamepad.buttons.BUTTON_A.isOn()){
             targetHeight = 0/*ball level one height*/;
             isBall = true;
@@ -37,10 +48,10 @@ public class AutoAlign {
         }
 
         if (targetHeight > 0) {
-            tank.adjust();
+            result = true;
             double currentHeight = encoder.getDistance();
 
-            if (currentHeight < height){
+            if (currentHeight < targetHeight){
                 slide.update(1.0, 0.0);
             } else {
                 slide.update(0, 0.0);
@@ -48,9 +59,11 @@ public class AutoAlign {
                 if (isBall) {
                     intake.outputBall();
                 } else {
-                    hatch.output();
+                    hatch.release();
                 }
             }
         }
+
+        return result;
     }
 }
