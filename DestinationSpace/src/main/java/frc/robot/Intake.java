@@ -16,12 +16,12 @@ public class Intake
 
     public void outputBall() {
         left.set(-1);
-        right.set(-1);
+        right.set(1);
     }
 
     public void intakeBall() {
         left.set(1);
-        right.set(1);
+        right.set(-1);
     }
 
     public void update(Gamepad gamepad) {
@@ -30,6 +30,9 @@ public class Intake
         }
         else if(!gamepad.trigger.getRightPressed(true) && gamepad.trigger.getLeftPressed(true)) {
             intakeBall();
+        } else {
+            left.set(0);
+            right.set(0);
         }
     }
 }

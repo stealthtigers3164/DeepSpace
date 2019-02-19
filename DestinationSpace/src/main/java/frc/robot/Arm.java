@@ -1,31 +1,46 @@
 package frc.robot;
 
-import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANEncoder;
+import com.revrobotics.CANSparkMax.InputMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.PWMSpeedController;
+import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Arm {
     private static double minRange = 0;
     private static double maxRange = 1;
     
-    private CANSparkMax sparkMax;
+    private Spark motor;
     private CANEncoder encoder;
+
+    private CANSparkMax max;
     
-    public Arm(int deviceID) {
-        sparkMax = new CANSparkMax(deviceID, MotorType.kBrushless);
-        sparkMax.restoreFactoryDefaults();
-        encoder = sparkMax.getEncoder();
+    public Arm(int port) {
+        // motor = new Spark(port);
+
+        max = new CANSparkMax(1, MotorType.kBrushless);
+        max.restoreFactoryDefaults();
+        encoder = max.getEncoder();
         
     }
     
     public void update(Gamepad gamepad) {
-        double power = 1;
-        double position = encoder.getPosition();
+        // double position = encoder.getPosition();
         
-        if (position > minRange && position < maxRange) {
-            sparkMax.set(power);
-        } else {
-            sparkMax.set(0);
-        }
+        double power = gamepad.sticks.RIGHT_Y.getRaw();
+        SmartDashboard.putBoolean("Is setting arm value in arm", power != 0);
+        // motor.set(power);
+        max.set(power);
+        // if (position > minRange && position < maxRange) {
+        // } else {
+        //     motor.set(0);
+        // }
+    }
+
+    public Spark getMotor() {
+        return motor;
     }
 }

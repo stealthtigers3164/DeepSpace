@@ -53,8 +53,11 @@ void Robot::AutonomousPeriodic() {
 void Robot::TeleopInit() {}
 
 #include <math.h>
+#include "rev/SparkMax.h"
 
 void Robot::TeleopPeriodic() {
+  rev::SparkMax test {1};
+
   double rightY = gamepad->sticks->LEFT_X->getRaw();
   double leftX = -gamepad->sticks->RIGHT_Y->getRaw();
 
@@ -68,6 +71,7 @@ void Robot::TeleopPeriodic() {
 
   frontLeft->Set(leftPower * .50);
   backLeft->Set(leftPower * .50);
+
 
   // cvSink.GrabFrame(source);
   // cvtColor(source, output, cv::COLOR_BGR2GRAY);

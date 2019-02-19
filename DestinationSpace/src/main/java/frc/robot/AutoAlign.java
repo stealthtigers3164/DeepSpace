@@ -41,17 +41,15 @@ public class AutoAlign {
             targetHeight = 0/*ball level one height*/;
             isBall = false;
         }
-        
-        slide.setAligning(targetHeight > 0);
-        
+                
         if (targetHeight > 0) {
             result = true;
             double currentHeight = slide.getHeight();
             
             if (currentHeight < targetHeight){
-                slide.update(1.0);
+                slide.setPower(1.0);
             } else {
-                slide.update(0);
+                slide.setPower(0);
                 
                 if (isBall) {
                     intake.outputBall();

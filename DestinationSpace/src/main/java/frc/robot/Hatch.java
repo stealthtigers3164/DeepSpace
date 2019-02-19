@@ -35,6 +35,7 @@ public class Hatch {
         }
 
         hatchPiston.set(DoubleSolenoid.Value.kReverse);
+
     }
 
     //Set power to the intake motors based on the gamepad values
@@ -50,5 +51,6 @@ public class Hatch {
     //Reset the hatch to the in position
     public void reset() {
         hasBeenUsed = false;
+        hatchPiston.set(DoubleSolenoid.Value.kOff);
     }
 }
