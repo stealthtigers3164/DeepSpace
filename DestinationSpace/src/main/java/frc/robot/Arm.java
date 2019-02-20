@@ -21,7 +21,7 @@ public class Arm {
     public Arm(int port) {
         // motor = new Spark(port);
 
-        max = new CANSparkMax(1, MotorType.kBrushless);
+        max = new CANSparkMax(4, MotorType.kBrushless);
         max.restoreFactoryDefaults();
         encoder = max.getEncoder();
         
@@ -30,7 +30,7 @@ public class Arm {
     public void update(Gamepad gamepad) {
         // double position = encoder.getPosition();
         
-        double power = gamepad.sticks.RIGHT_Y.getRaw();
+        double power = Math.min(gamepad.sticks.RIGHT_Y.getRaw(), .5);
         SmartDashboard.putBoolean("Is setting arm value in arm", power != 0);
         // motor.set(power);
         max.set(power);

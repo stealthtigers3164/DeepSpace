@@ -39,7 +39,7 @@ public class Robot extends TimedRobot
 
     // ultra = new UltrasonicSensor(2, 3);
     tank = new TankDrive(9, 8, 7, 6, ultra, limelight);
-    // CameraServer.getInstance().startAutomaticCapture();
+    CameraServer.getInstance().startAutomaticCapture();
 
     linear = new LinearSlide(0, 1, 0, 1);
     arm = new Arm(4);

@@ -10,6 +10,7 @@ public class TankDrive
     private Spark m_frontRight;
     private Spark m_backRight;
     private UltrasonicSensor ultra;
+    private double approximateDistance;
     private Limelight limeLight;
     private double range;
 
@@ -30,16 +31,17 @@ public class TankDrive
     {
         double steering_adjust = 0;
         double distance_adjust = 0;
+        approximateDistance = limeLight.getDistance();
 
         if(shouldAlign) {
             steering_adjust = Math.min(limeLight.getTX(), .5) ;
-            distance_adjust = Math.min(ultra.getDistanceInches() / 100, .5);
+            distance_adjust = Math.min(approximateDistance / 100, .5);
 
             if (distance_adjust > 1) {
                 distance_adjust = 1;
             }
 
-            if (ultra.getDistanceInches() <= range) {
+            if (approximateDistance <= range) {
                 distance_adjust = 0;
                 steering_adjust = 0;
             }
@@ -55,11 +57,6 @@ public class TankDrive
 
         double leftMotorPower = Math.min(leftPower + steering_adjust + distance_adjust, 1);
         double rightMotorPower = Math.min(rightPower + steering_adjust - distance_adjust, 1);
-
-        if (leftMotorPower != 0 ||
-            rightMotorPower != 0) {
-            SmartDashboard.putBoolean("Arm is being set", arm.getMotor().get() != 0);
-        }
 
         m_frontLeft.set(leftMotorPower);
         m_backLeft.set(leftMotorPower);

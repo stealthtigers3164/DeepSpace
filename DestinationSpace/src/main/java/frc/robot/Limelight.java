@@ -1,9 +1,6 @@
 package frc.robot;
 
-import java.util.Set;
-
 import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -14,7 +11,7 @@ public class Limelight
 
     public Limelight()
     {
-        table = null;        
+        table = null;
     }
 
     public double getTX() {
@@ -46,5 +43,18 @@ public class Limelight
 
     public double getAdjustments() {
         return steering_adjust;
+    }
+
+//method to get approximated distance, in inches, of the robot from its target 
+//using basic trigonometry and the estimated ty value from the limelight.
+    public double getDistance() {
+    //double a1 stores the value of tx, 
+    //which acts as ty due to the limelight's vertical orientation; 
+    //ty approximates the angle (in degrees) from the camera to the target 
+        double a1 = Math.abs(Math.toDegrees(Math.sin(Math.toRadians(getTX()))));
+        double h1 = 40.5; //insert height in inches to limelight;
+        double distance = h1*a1;
+        SmartDashboard.putNumber("Approximate distance of robot to target", distance);
+        return distance;
     }
 }
