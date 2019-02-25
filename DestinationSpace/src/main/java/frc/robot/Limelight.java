@@ -45,14 +45,16 @@ public class Limelight
         return steering_adjust;
     }
 
-//method to get approximated distance, in inches, of the robot from its target 
-//using basic trigonometry and the estimated ty value from the limelight.
+//Method to get approximated distance, in inches, of the robot from its target using basic trigonometry and the estimated ty value from the limelight.
+//The target is assumed to be the vision tape corresponding to the lowest rocket hatch and all cargo ship bays;
+//The distance algorithm below will not accurately return the distance of the robot from the rocket when it is facing the rocket ship cargo bays.
     public double getDistance() {
-    //double a1 stores the value of tx, 
-    //which acts as ty due to the limelight's vertical orientation; 
-    //ty approximates the angle (in degrees) from the camera to the target 
-        double a1 = Math.abs(Math.toDegrees(Math.sin(Math.toRadians(getTX()))));
-        double h1 = 40.5; //insert height in inches to limelight;
+    /* Double a1 stores the value of tx, which acts as ty due to the limelight's vertical orientation; 
+    ty approximates the angle (in radians) from the camera to the target */
+        double a1 = Math.abs((Math.sin(Math.toRadians(getTX()))));
+        //Calculate the height in inches from the limelight to the target
+        //Subtract the distance from the top of the target to the floor from the distance of the limelight to the floor
+        double h1 = 40.5-31.5;
         double distance = h1*a1;
         SmartDashboard.putNumber("Approximate distance of robot to target", distance);
         return distance;
