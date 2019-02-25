@@ -9,25 +9,23 @@ public class TankDrive
     private Spark m_backLeft;
     private Spark m_frontRight;
     private Spark m_backRight;
-    private UltrasonicSensor ultra;
     private double approximateDistance;
     private Limelight limeLight;
     private double range;
 
     public TankDrive(int frontLeft, int backLeft, int frontRight, int backRight, 
-                     UltrasonicSensor ultrasonic, Limelight limeLight)
+                     Limelight limeLight)
     {
         m_frontLeft = new Spark(frontLeft);
         m_backLeft = new Spark(backLeft);
         m_frontRight = new Spark(frontRight);
         m_backRight = new Spark(backRight);
-        ultra = ultrasonic;
         this.limeLight = limeLight;
 
         this.range = 17;
     }
 
-    public void update(Gamepad gamepad, boolean shouldAlign, Arm arm)
+    public void update(Gamepad gamepad, boolean shouldAlign)
     {
         double steering_adjust = 0;
         double distance_adjust = 0;

@@ -17,7 +17,6 @@ public class Robot extends TimedRobot
   private Gamepad gamepad1;
   private Gamepad gamepad2;
 
-  private UltrasonicSensor ultra;
   private TankDrive tank;
   
   private Limelight limelight;
@@ -34,11 +33,9 @@ public class Robot extends TimedRobot
     gamepad1 = new Gamepad(0);
     gamepad2 = new Gamepad(1);
     
-
     // limelight = new Limelight();
 
-    // ultra = new UltrasonicSensor(2, 3);
-    tank = new TankDrive(9, 8, 7, 6, ultra, limelight);
+    tank = new TankDrive(9, 8, 7, 6, limelight);
     CameraServer.getInstance().startAutomaticCapture();
 
     linear = new LinearSlide(0, 1, 0, 1);
@@ -73,7 +70,7 @@ public class Robot extends TimedRobot
     intake.update(gamepad1);
     hatch.update(gamepad2);
     // alignment.update(gamepad1);
-    tank.update(gamepad1, false, arm);
+    tank.update(gamepad1, false);
   }
 
   @Override

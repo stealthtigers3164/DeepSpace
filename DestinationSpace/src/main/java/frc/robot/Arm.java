@@ -2,10 +2,8 @@ package frc.robot;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANEncoder;
-import com.revrobotics.CANSparkMax.InputMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.PWMSpeedController;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -28,16 +26,19 @@ public class Arm {
     }
     
     public void update(Gamepad gamepad) {
-        // double position = encoder.getPosition();
-        
+        double position = encoder.getPosition();
         double power = Math.min(gamepad.sticks.RIGHT_Y.getRaw(), .5);
-        SmartDashboard.putBoolean("Is setting arm value in arm", power != 0);
-        // motor.set(power);
-        max.set(power);
-        // if (position > minRange && position < maxRange) {
-        // } else {
-        //     motor.set(0);
-        // }
+
+        if (position > minRange && position < maxRange) {
+            max.set(power);
+        } else {
+            if ((position < minRange && power > 0) ||
+                (position > maxRange && power < 0)) {
+                motor.set(power);
+            } else {
+                motor.set(0); 
+            }
+        }
     }
 
     public Spark getMotor() {
