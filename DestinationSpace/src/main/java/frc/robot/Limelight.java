@@ -67,14 +67,14 @@ public double getDistance() {
     ty approximates the angle (in radians) from the camera to the target */
         double angle = 0;
         while(table.getEntry("tv").getBoolean(false)) {
-            angle = Math.abs((Math.sin(Math.toRadians(getTY()))));
+            angle = (Math.tan(Math.toRadians(getTY())));
             //Calculate the height in inches from the limelight to the target
             //Subtract the distance from the top of the target to the floor from the distance of the camera to the floor
-            double l_tape = 5.5/2;
+            //double l_tape = 5.5/2;
             double l_floorToTape = 31.5;
-            double l_floorToTarget = l_floorToTape - l_tape;
-            double l_targetToCam = 40.5-l_floorToTarget;
-            double distance = l_targetToCam*angle;
+            //double l_floorToTarget = l_floorToTape - l_tape;
+            double l_targetToCam = 40.5-l_floorToTape;
+            double distance = Math.abs(l_targetToCam*angle);
             SmartDashboard.putNumber("Approximated distance of robot to target: ", distance);
             return distance;
         }
