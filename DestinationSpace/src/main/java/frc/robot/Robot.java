@@ -8,9 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.wpilibj.PWMSpeedController;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TimedRobot 
 {
@@ -33,7 +31,7 @@ public class Robot extends TimedRobot
     gamepad1 = new Gamepad(0);
     gamepad2 = new Gamepad(1);
     
-    // limelight = new Limelight();
+    limelight = new Limelight();
 
     tank = new TankDrive(9, 8, 7, 6, limelight);
     CameraServer.getInstance().startAutomaticCapture();
@@ -67,7 +65,7 @@ public class Robot extends TimedRobot
 
     linear.update(gamepad2);
     arm.update(gamepad2);
-    intake.update(gamepad1);
+    intake.update(gamepad2);
     hatch.update(gamepad2);
     // alignment.update(gamepad1);
     tank.update(gamepad1, false);

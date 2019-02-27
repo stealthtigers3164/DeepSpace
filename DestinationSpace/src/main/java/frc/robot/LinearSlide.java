@@ -11,8 +11,8 @@ public class LinearSlide
     private Spark m_right;
     private Spark m_left;
 
-    private double min_range;
-    private double max_range;
+    private double minRange;
+    private double maxRange;
     
     public LinearSlide(int rightPort, int leftPort, int channelA, int channelB) {
         m_right = new Spark(rightPort);
@@ -21,8 +21,8 @@ public class LinearSlide
         encoder = new Encoder(channelA, channelB);
         encoder.setDistancePerPulse(10);
 
-        min_range = 0;
-        max_range = 0;
+        minRange = 0;
+        maxRange = 0;
     }
     
     private void power(double in_power) {
@@ -36,11 +36,17 @@ public class LinearSlide
         SmartDashboard.putNumber("currentHeight", currentHeight);
 
         //If the lift is all the way at the bottom or top keep it where it is
-        if (currentHeight < min_range ||
-            currentHeight > max_range)
+        if (currentHeight < minRange ||
+            currentHeight > maxRange)
         {
-            //WARNING: if the keepHeight power is too much and the keepHeight is set to keep it at the top then it could break it
-            // setPower(0);
+            if ((currentHeight < minRange && power > 0) ||
+                (currentHeight > maxRange && power < 0)) {
+                m_right.set(power);
+                m_left.set(power);
+            } else {
+                m_right.set(power);
+                m_left.set(power);
+            }
         }        
     }
 

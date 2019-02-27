@@ -2,8 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Spark;
 
-public class Intake
-{
+public class Intake {
     //Intake left motor
     private Spark left;
     //Intake right motor
@@ -25,14 +24,7 @@ public class Intake
     }
 
     public void update(Gamepad gamepad) {
-        if(gamepad.trigger.getRightPressed(true) && !gamepad.trigger.getLeftPressed(true)) {
-            outputBall();
-        }
-        else if(!gamepad.trigger.getRightPressed(true) && gamepad.trigger.getLeftPressed(true)) {
-            intakeBall();
-        } else {
-            left.set(0);
-            right.set(0);
-        }
+        left.set(gamepad.trigger.getLeftVal() - gamepad.trigger.getRightVal());
+        right.set(gamepad.trigger.getRightVal() - gamepad.trigger.getLeftVal());
     }
 }

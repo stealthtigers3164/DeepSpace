@@ -23,11 +23,20 @@ public class Limelight
         return table.getEntry("tx").getDouble(0) / 50.0;
     }
 
+    public double getTY() {
+        if (table == null) {
+            table = NetworkTableInstance.getDefault().getTable("limelight");
+        }
+        //NOTE: Getting the ty variable from network tables is not a one time thing
+        //Once the value changes you have to get it again
+        return table.getEntry("ty").getDouble(0) / 50.0;
+    }
+
     public double getTA() {
         if (table == null) {
             table = NetworkTableInstance.getDefault().getTable("limelight");
         }
-        //NOTE: Getting the tx variable from network tables is not a one time thing
+        //NOTE: Getting the ta variable from network tables is not a one time thing
         //Once the value changes you have to get it again
         return table.getEntry("ta").getDouble(0);
     }
@@ -36,7 +45,7 @@ public class Limelight
         if (table == null) {
             table = NetworkTableInstance.getDefault().getTable("limelight");
         }
-        //NOTE: Getting the tx variable from network tables is not a one time thing
+        //NOTE: Getting the tv variable from network tables is not a one time thing
         //Once the value changes you have to get it again
         return table.getEntry("tv").getDouble(0);
     }
@@ -51,7 +60,7 @@ public class Limelight
     public double getDistance() {
     /* Double a1 stores the value of tx, which acts as ty due to the limelight's vertical orientation; 
     ty approximates the angle (in radians) from the camera to the target */
-        double a1 = Math.abs((Math.sin(Math.toRadians(getTX()))));
+        double a1 = Math.abs((Math.sin(Math.toRadians(getTY()))));
         //Calculate the height in inches from the limelight to the target
         //Subtract the distance from the top of the target to the floor from the distance of the limelight to the floor
         double h1 = 40.5-31.5;
