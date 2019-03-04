@@ -1,7 +1,18 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
+
+enum TopHatDir {
+    NONE(),
+    UP(),
+    DOWN(),
+    LEFT(),
+    RIGHT(),
+    UP_LEFT(),
+    UP_RIGHT(),
+    DOWN_LEFT(),
+    DOWN_RIGHT();
+}
 
 enum LogitchTriggerValue {
     LEFT(2),
@@ -64,7 +75,6 @@ enum LogitechButtonValue {
 
 public class LogitechGamepad {
     private Joystick jstick;
-    private  sticks[]; 
 
     public LogitechGamepad(int port) {
         jstick = new Joystick(port);
@@ -163,19 +173,7 @@ public class LogitechGamepad {
         return (int) jstick.getRawAxis(LogitchJoyStickValue.DPAD_LR.getValue());
     }
 
-    public enum TopHatDir {
-        NONE(),
-        UP(),
-        DOWN(),
-        LEFT(),
-        RIGHT(),
-        UP_LEFT(),
-        UP_RIGHT(),
-        DOWN_LEFT(),
-        DOWN_RIGHT();
-    }
-
-    public TopHatDir getDir() {
+    public TopHatDir getDPadDir() {
         switch(getDPUpDownRaw()) {
         case 1:
             switch(getDPLeftRightRaw()) {

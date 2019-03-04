@@ -23,8 +23,8 @@ public class Intake {
         right.set(-1);
     }
 
-    public void update(Gamepad gamepad) {
-        left.set(gamepad.trigger.getLeftVal() - gamepad.trigger.getRightVal());
-        right.set(gamepad.trigger.getRightVal() - gamepad.trigger.getLeftVal());
+    public void update(LogitechGamepad gamepad) {
+        left.set(gamepad.getLeftTriggerValue() - gamepad.getRightTriggerValue());//gamepad.trigger.getLeftVal() - gamepad.trigger.getRightVal());
+        right.set(gamepad.getRightTriggerValue() - gamepad.getLeftTriggerValue());//gamepad.trigger.getRightVal() - gamepad.trigger.getLeftVal());
     }
 }

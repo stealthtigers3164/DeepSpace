@@ -50,9 +50,9 @@ public class LinearSlide
         }        
     }
 
-    public void update(Gamepad gamepad2) {
+    public void update(LogitechGamepad gamepad2) {
         //NOTE: the left bumper moves the left down and the right up        
-        power(gamepad2.sticks.LEFT_Y.getRaw());
+        power(gamepad2.getLeftYAxis());//gamepad2.sticks.LEFT_Y.getRaw());
     }
     
     public void setPower(double in_power) {

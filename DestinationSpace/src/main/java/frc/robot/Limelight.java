@@ -9,6 +9,9 @@ public class Limelight
     private NetworkTable table;
     private double steering_adjust = 0.0;
 
+    private static double h = 41;
+    private static double half_h = 20.5;
+
     public Limelight()
     {
         table = null;
@@ -62,24 +65,19 @@ public class Limelight
 //Method to get approximated distance, in inches, of the robot from its target using basic trigonometry and the estimated ty value from the limelight.
 //The target is assumed to be the vision tape corresponding to the lowest rocket hatch and all cargo ship bays;
 //The distance algorithm below will not accurately return the distance of the robot from the rocket when it is facing the rocket ship cargo bays.
-public double getDistance() {
-    /* Double a1 stores the value of ty
-    ty approximates the angle (in radians) from the camera to the target */
-        double angle = 0;
-        while(table.getEntry("tv").getBoolean(false)) {
-            angle = (Math.tan(Math.toRadians(getTY())));
-            //Calculate the height in inches from the limelight to the target
-            //Subtract the distance from the top of the target to the floor from the distance of the camera to the floor
-            //double l_tape = 5.5/2;
-            double l_floorToTape = 31.5;
-            //double l_floorToTarget = l_floorToTape - l_tape;
-            double l_targetToCam = 40.5-l_floorToTape;
-            double distance = Math.abs(l_targetToCam*angle);
-            SmartDashboard.putNumber("Approximated distance of robot to target: ", distance);
-            return distance;
-        }
-        SmartDashboard.putString("Error getting distance: ", "Cannot compute distance if the target is not in sight");
-        return angle;
-    }
+    // public double getDistance() {
+    // /* Double a1 stores the value of tx, which acts as ty due to the limelight's vertical orientation; 
+    // ty approximates the angle (in radians) from the camera to the target */
+    //     double a1 = Math.abs((Math.sin(Math.toRadians(getTY()))));
+    //     //Calculate the height in inches from the limelight to the target
+    //     //Subtract the distance from the top of the target to the floor from the distance of the limelight to the floor
+    //     double h1 = 40.5-31.5;
+    //     double distance = h1*a1;
+    //     SmartDashboard.putNumber("Approximate distance of robot to target", distance);
+    //     return distance;
+    // }
 
+    public double getDistance() {
+        return (getTY() + half_h) / h;
+    }
 }

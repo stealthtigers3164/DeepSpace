@@ -1,7 +1,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TankDrive 
 {
@@ -11,25 +10,27 @@ public class TankDrive
     private Spark m_backRight;
     private double approximateDistance;
     private Limelight limeLight;
+    private UltrasonicSensor rangeFinder;
     private double range;
 
     public TankDrive(int frontLeft, int backLeft, int frontRight, int backRight, 
-                     Limelight limeLight)
+                     Limelight limeLight, int channelA, int channelB)
     {
         m_frontLeft = new Spark(frontLeft);
         m_backLeft = new Spark(backLeft);
         m_frontRight = new Spark(frontRight);
         m_backRight = new Spark(backRight);
         this.limeLight = limeLight;
+        this.rangeFinder = new UltrasonicSensor(channelA, channelB);
 
         this.range = 17;
     }
 
-    public void update(Gamepad gamepad, boolean shouldAlign)
+    public void update(LogitechGamepad gamepad, boolean shouldAlign)
     {
         double steering_adjust = 0;
         double distance_adjust = 0;
-        approximateDistance = limeLight.getDistance();
+        approximateDistance = rangeFinder.getDistanceInches();//limeLight.getDistance();
 
         if(shouldAlign) {
             steering_adjust = Math.min(limeLight.getTX(), .5) ;
@@ -39,14 +40,14 @@ public class TankDrive
                 distance_adjust = 1;
             }
 
-            if (approximateDistance <= range) {
+            if (approximateDistance <= .1) {
                 distance_adjust = 0;
                 steering_adjust = 0;
             }
         }
 
-        double rightY = gamepad.sticks.RIGHT_X.getRaw();
-        double leftX = -gamepad.sticks.LEFT_Y.getRaw();
+        double rightY = gamepad.getRightXAxis();//gamepad.sticks.RIGHT_X.getRaw();
+        double leftX = -gamepad.getLeftYAxis();//-gamepad.sticks.LEFT_Y.getRaw();
       
         double leftPowerRaw = rightY - leftX;
         double rightPowerRaw = rightY + leftX;

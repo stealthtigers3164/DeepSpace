@@ -14,8 +14,9 @@ import edu.wpi.first.wpilibj.*;
 public class Robot extends TimedRobot 
 {
   private Compressor compressor;
-  private Gamepad gamepad1;
-  private Gamepad gamepad2;
+
+  private LogitechGamepad gamepad1;
+  private LogitechGamepad gamepad2;
 
   private TankDrive tank;
   
@@ -31,12 +32,15 @@ public class Robot extends TimedRobot
   @Override
   public void robotInit() 
   {
-    gamepad1 = new Gamepad(0);
-    gamepad2 = new Gamepad(1);
-    
+    // gamepad1 = new Gamepad(0);
+    // gamepad2 = new Gamepad(1);
+
+    gamepad1 = new LogitechGamepad(0);
+    gamepad2 = new LogitechGamepad(1);
+
     limelight = new Limelight();
 
-    tank = new TankDrive(9, 8, 7, 6, limelight);
+    tank = new TankDrive(0, 1, 3, 2, limelight, 2, 3);
     CameraServer.getInstance().startAutomaticCapture();
 
     linear = new LinearSlide(0, 1, 0, 1);
@@ -46,7 +50,7 @@ public class Robot extends TimedRobot
     compressor = new Compressor(0);
     compressor.setClosedLoopControl(true);
     climb = new Climb(0, 0, 0, 0, 0); //definitely change these
-    // alignment = new AutoAlign(linear, intake, hatch);
+    alignment = new AutoAlign(linear, intake, hatch);
   }
 
   @Override
@@ -73,7 +77,7 @@ public class Robot extends TimedRobot
     arm.update(gamepad2);
     intake.update(gamepad2);
     hatch.update(gamepad2);
-    // alignment.update(gamepad1);
+    alignment.update(gamepad1);
     tank.update(gamepad1, false);
   }
 

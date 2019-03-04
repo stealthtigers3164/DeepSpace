@@ -5,7 +5,6 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Arm {
     private static double minRange = 0;
@@ -25,9 +24,9 @@ public class Arm {
         
     }
     
-    public void update(Gamepad gamepad) {
+    public void update(LogitechGamepad gamepad) {
         double position = encoder.getPosition();
-        double power = Math.min(gamepad.sticks.RIGHT_Y.getRaw(), .5);
+        double power = Math.min(gamepad.getRightYAxis(), .5);//gamepad.sticks.RIGHT_Y.getRaw(), .5);
 
         if (position > minRange && position < maxRange) {
             max.set(power);

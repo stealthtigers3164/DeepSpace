@@ -1,7 +1,5 @@
 package frc.robot;
 
-import frc.robot.Gamepad.TopHatDir;
-
 public class AutoAlign {
     private LinearSlide slide;
     private Intake intake;
@@ -19,25 +17,25 @@ public class AutoAlign {
         isBall = false;
     }
     
-    public boolean update(Gamepad gamepad){
+    public boolean update(LogitechGamepad gamepad){
         boolean result = false;
         
-        if (gamepad.buttons.BUTTON_A.isOn()){
+        if (gamepad.isADown()){ //gamepad.buttons.BUTTON_A.isOn()){
             targetHeight = 0/*ball level one height*/;
             isBall = true;
-        } else if(gamepad.buttons.BUTTON_B.isOn()){
+        } else if(gamepad.isBDown()){//.buttons.BUTTON_B.isOn()){
             targetHeight = 0/*ball level one height*/;
             isBall = true;
-        } else if(gamepad.buttons.BUTTON_Y.isOn()){
+        } else if(gamepad.isYDown()){//gamepad.buttons.BUTTON_Y.isOn()){
             targetHeight = 0/*ball level one height*/;
             isBall = true;
-        } else if(gamepad.tophat.getDir() == TopHatDir.DOWN){
+        } else if(gamepad.getDPadDir() == TopHatDir.DOWN){
             targetHeight = 0/*ball level one height*/;
             isBall = false;
-        } else if(gamepad.tophat.getDir() == TopHatDir.LEFT){
+        } else if(gamepad.getDPadDir() == TopHatDir.LEFT){
             targetHeight = 0/*ball level one height*/;
             isBall = false;
-        } else if(gamepad.tophat.getDir() == TopHatDir.UP){
+        } else if(gamepad.getDPadDir() == TopHatDir.UP){
             targetHeight = 0/*ball level one height*/;
             isBall = false;
         }

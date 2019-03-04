@@ -12,11 +12,11 @@ public class Climb {
         backPiston = new Solenoid(b_moduleNum, b_forward); //accepts module number, port on PCM
     }
 
-    public void update(Gamepad gamepad) {
+    public void update(LogitechGamepad gamepad) {
         boolean hasBeenUsed = false;
-        boolean d_forward = gamepad.trigger.getLeftPressed(true);
-        boolean d_reverse = gamepad.trigger.getRightPressed(true);
-        boolean s_out = gamepad.buttons.BUTTON_LB.isOn();
+        boolean d_forward = gamepad.isLeftTriggerDown(true);
+        boolean d_reverse = gamepad.isRightTriggerDown(true);
+        boolean s_out = gamepad.isLBDown();
         if (d_forward && hasBeenUsed) {
             frontPiston.set(Value.kForward);
             hasBeenUsed = true;
