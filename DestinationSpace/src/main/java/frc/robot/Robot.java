@@ -9,9 +9,11 @@ package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.*;
 
 public class Robot extends TimedRobot 
 {
+  private Compressor compressor;
   private Gamepad gamepad1;
   private Gamepad gamepad2;
 
@@ -22,6 +24,7 @@ public class Robot extends TimedRobot
   private Arm arm;
   private Intake intake;
   private Hatch hatch;
+  private Climb climb;
 
   private AutoAlign alignment;
 
@@ -40,6 +43,9 @@ public class Robot extends TimedRobot
     arm = new Arm(4);
     intake = new Intake(3, 2);
     hatch = new Hatch(4, 5);
+    compressor = new Compressor(0);
+    compressor.setClosedLoopControl(true);
+    climb = new Climb(0, 0, 0, 0, 0); //definitely change these
     // alignment = new AutoAlign(linear, intake, hatch);
   }
 
@@ -74,5 +80,6 @@ public class Robot extends TimedRobot
   @Override
   public void testPeriodic() 
   {
+    climb.update(gamepad1);
   }
 }
