@@ -30,7 +30,7 @@ public class TankDrive
     {
         double steering_adjust = 0;
         double distance_adjust = 0;
-        approximateDistance = rangeFinder.getDistanceInches();//limeLight.getDistance();
+        approximateDistance = rangeFinder.getDistanceInches();
 
         if(shouldAlign) {
             steering_adjust = Math.min(limeLight.getTX(), .5) ;
@@ -40,7 +40,7 @@ public class TankDrive
                 distance_adjust = 1;
             }
 
-            if (approximateDistance <= .1) {
+            if (approximateDistance <= range) {
                 distance_adjust = 0;
                 steering_adjust = 0;
             }
@@ -57,10 +57,14 @@ public class TankDrive
         double leftMotorPower = Math.min(leftPower + steering_adjust + distance_adjust, 1);
         double rightMotorPower = Math.min(rightPower + steering_adjust - distance_adjust, 1);
 
-        m_frontLeft.set(leftMotorPower);
-        m_backLeft.set(leftMotorPower);
+        setPower(leftMotorPower, rightMotorPower);
+    }
 
-        m_frontRight.set(rightMotorPower);
-        m_backRight.set(rightMotorPower);
+    public void setPower(double left, double right) {
+        m_frontLeft.set(left);
+        m_backLeft.set(left);
+
+        m_frontRight.set(right);
+        m_backRight.set(right);
     }
 }

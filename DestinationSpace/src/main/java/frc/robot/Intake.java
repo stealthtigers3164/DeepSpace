@@ -27,4 +27,9 @@ public class Intake {
         left.set(gamepad.getLeftTriggerValue() - gamepad.getRightTriggerValue());//gamepad.trigger.getLeftVal() - gamepad.trigger.getRightVal());
         right.set(gamepad.getRightTriggerValue() - gamepad.getLeftTriggerValue());//gamepad.trigger.getRightVal() - gamepad.trigger.getLeftVal());
     }
+
+    public void setPower(double power) {
+        left.set(power);
+        right.set(-power);
+    }
 }

@@ -79,11 +79,132 @@ public class Robot extends TimedRobot
     hatch.update(gamepad2);
     alignment.update(gamepad1);
     tank.update(gamepad1, false);
+  
+    // climb.update(gamepad1);
   }
+
+  Timer testTimer = null;
+  int testIndex = 0;
+  int testStagePointer = 0;
 
   @Override
   public void testPeriodic() 
   {
-    climb.update(gamepad1);
+    if (testTimer == null) {
+      testTimer = new Timer();
+    }
+
+    switch(testIndex)
+    {
+      case 0:
+      {
+        if (testStagePointer == 0) {
+          testTimer.reset();
+          testTimer.start();
+          linear.setPower(.3);
+
+          if (testTimer.get() >= 2) {
+            testTimer.stop();
+            testTimer.reset();
+            testTimer.start();
+    
+            linear.setPower(-.3);
+            ++testStagePointer;
+          }
+        }
+        else if (testStagePointer == 1) {
+          if (testTimer.get() >= 1) {
+            testTimer.stop();
+            testTimer.reset();
+    
+            linear.setPower(0);
+            testStagePointer = 0;
+          }
+        }
+
+      }break;
+      case 1:
+      {
+        if (testStagePointer == 0) {
+          testTimer.reset();
+          testTimer.start();
+
+          tank.setPower(-.5, .5);
+          
+          if (testTimer.get() >= 1) {
+            testTimer.stop();
+            testTimer.reset();
+    
+            tank.setPower(.5, -.5);
+            ++testStagePointer;
+          }
+        }
+        else if (testStagePointer == 1) {
+          if (testTimer.get() >= 1) {
+            testTimer.stop();
+            testTimer.reset();
+    
+            tank.setPower(0, 0);
+            testStagePointer = 0;
+          }
+        }
+      }break;
+      case 2:
+      {
+        if (testStagePointer == 0) {
+          testTimer.reset();
+          testTimer.start();
+
+          arm.getMotor().set(.3);
+          
+          if (testTimer.get() >= .5) {
+            testTimer.stop();
+            testTimer.reset();
+    
+            arm.getMotor().set(-.3);
+            ++testStagePointer;
+          }
+        }
+        else if (testStagePointer == .5) {
+          if (testTimer.get() >= 1) {
+            testTimer.stop();
+            testTimer.reset();
+    
+            arm.getMotor().set(0);
+            testStagePointer = 0;
+          }
+        }
+      }break;
+      case 3:
+      {
+        if (testStagePointer == 0) {
+          testTimer.reset();
+          testTimer.start();
+
+          intake.setPower(1);
+          
+          if (testTimer.get() >= .5) {
+            testTimer.stop();
+            testTimer.reset();
+    
+            intake.setPower(-1);
+            ++testStagePointer;
+          }
+        }
+        else if (testStagePointer == .5) {
+          if (testTimer.get() >= 1) {
+            testTimer.stop();
+            testTimer.reset();
+    
+            intake.setPower(0);
+            testStagePointer = 0;
+          }
+        }
+      }break;
+      default:
+      {
+        //NOTE: This is not good something went wrong in the test function
+      }break;
+    }
   }
 }
