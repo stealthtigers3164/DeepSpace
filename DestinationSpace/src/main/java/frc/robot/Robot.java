@@ -43,12 +43,12 @@ public class Robot extends TimedRobot
     tank = new TankDrive(0, 1, 3, 2, limelight, 2, 3);
     CameraServer.getInstance().startAutomaticCapture();
 
-    linear = new LinearSlide(0, 1, 0, 1);
-    arm = new Arm(4);
-    intake = new Intake(3, 2);
-    hatch = new Hatch(4, 5);
-    compressor = new Compressor(0);
-    compressor.setClosedLoopControl(true);
+    // linear = new LinearSlide(0, 1, 0, 1);
+    // arm = new Arm(4);
+    // intake = new Intake(3, 2);
+    // hatch = new Hatch(4, 5);
+    // compressor = new Compressor(0);
+    // compressor.setClosedLoopControl(true);
     climb = new Climb(0, 0, 0, 0, 0); //definitely change these
     alignment = new AutoAlign(linear, intake, hatch);
   }
@@ -78,9 +78,8 @@ public class Robot extends TimedRobot
     intake.update(gamepad2);
     hatch.update(gamepad2);
     alignment.update(gamepad1);
+    climb.update(gamepad1);
     tank.update(gamepad1, false);
-  
-    // climb.update(gamepad1);
   }
 
   Timer testTimer = null;
