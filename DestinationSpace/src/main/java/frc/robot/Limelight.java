@@ -11,6 +11,7 @@ public class Limelight
 
     private static double h = 41;
     private static double half_h = 20.5;
+    private static double offset = 0;
 
     public Limelight()
     {
@@ -21,7 +22,7 @@ public class Limelight
         if (table == null) {
             table = NetworkTableInstance.getDefault().getTable("limelight");
         }
-        double tx = table.getEntry("tx").getDouble(0)/50.0;
+        double tx = (table.getEntry("tx").getDouble(0) + offset)/50.0;
         //NOTE: Getting the tx variable from network tables is not a one time thing
         //Once the value changes you have to get it again
         return tx;

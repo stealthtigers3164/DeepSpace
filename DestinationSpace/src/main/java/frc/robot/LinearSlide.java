@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
 public class LinearSlide
 {
     private Encoder encoder;
@@ -21,8 +20,8 @@ public class LinearSlide
         encoder = new Encoder(channelA, channelB);
         encoder.setDistancePerPulse(10);
 
-        minRange = 0;
-        maxRange = 0;
+        minRange = getHeight();
+        maxRange = -23000;
     }
     
     private void power(double in_power) {
@@ -35,24 +34,28 @@ public class LinearSlide
         
         SmartDashboard.putNumber("currentHeight", currentHeight);
 
-        //If the lift is all the way at the bottom or top keep it where it is
-        if (currentHeight < minRange ||
-            currentHeight > maxRange)
+        // If the lift is all the way at the bottom or top keep it where it is
+        if (currentHeight > minRange &&
+            currentHeight < maxRange)
         {
-            if ((currentHeight < minRange && power > 0) ||
-                (currentHeight > maxRange && power < 0)) {
+            m_right.set(power);
+            m_left.set(power);
+        }
+        else {
+            if ((currentHeight < minRange && power < 0) ||
+            (currentHeight > maxRange && power > 0)) {
                 m_right.set(power);
                 m_left.set(power);
             } else {
-                m_right.set(power);
-                m_left.set(power);
+                m_right.set(0);
+                m_left.set(0);
             }
-        }        
+        }
     }
 
     public void update(LogitechGamepad gamepad2) {
-        //NOTE: the left bumper moves the left down and the right up        
-        power(gamepad2.getLeftYAxis());//gamepad2.sticks.LEFT_Y.getRaw());
+        //NOTE: the left bumper moves the left down and the right up
+        power(-gamepad2.getLeftYAxis());
     }
     
     public void setPower(double in_power) {

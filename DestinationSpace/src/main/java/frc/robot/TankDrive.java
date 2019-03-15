@@ -46,8 +46,8 @@ public class TankDrive
             }
         }
 
-        double rightY = gamepad.getRightXAxis();//gamepad.sticks.RIGHT_X.getRaw();
-        double leftX = -gamepad.getLeftYAxis();//-gamepad.sticks.LEFT_Y.getRaw();
+        double rightY = gamepad.getRightXAxis();
+        double leftX = gamepad.getLeftYAxis();
       
         double leftPowerRaw = rightY - leftX;
         double rightPowerRaw = rightY + leftX;

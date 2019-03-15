@@ -40,10 +40,10 @@ public class Hatch {
 
     //Set power to the intake motors based on the gamepad values
     public void update(LogitechGamepad gamepad) {
-        if (gamepad.isRBDown()){//gamepad.buttons.BUTTON_RB.isOn()) {
+        if (gamepad.isRBDown()){
             hold();
         }
-        if (gamepad.isRBDown()){//gamepad.buttons.BUTTON_LB.isOn()) {
+        if (gamepad.isLBDown()){
             release();
         }
     }

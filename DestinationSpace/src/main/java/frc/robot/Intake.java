@@ -15,7 +15,7 @@ public class Intake {
     public Intake(int leftSpark, int rightSpark) {
         left = new Spark(leftSpark);
         right = new Spark(rightSpark);
-        limitSwitch = new LimitSwitch(0, OperatingMode.NC);
+        // limitSwitch = new LimitSwitch(0, OperatingMode.NC);
     }
 
     public void outputBall() {
@@ -34,17 +34,19 @@ public class Intake {
     }
 
     public void update(LogitechGamepad gamepad) {
-        // smh this is a disaster : (
-
         leftPower = gamepad.getLeftTriggerValue() - gamepad.getRightTriggerValue();
         rightPower = gamepad.getRightTriggerValue() - gamepad.getLeftTriggerValue();
-        if (limitSwitch.isPressed()) {
-            //Note: Check to make sure that the direction on both wheels are going outward
-            left.set(Math.min(0, leftPower));
-            right.set(Math.min(0, -rightPower));
-        } else {
+        
+        // if (limitSwitch.isPressed()) {
+        //     //Note: Check to make sure that the direction on both wheels are going outward
+        //     if (leftPower < 0 && rightPower > 0) 
+        //     {
+        //         left.set(leftPower);
+        //         right.set(rightPower);
+        //     }
+        // } else {
             left.set(leftPower);
             right.set(rightPower);
-        }
+        // }
     }
 }

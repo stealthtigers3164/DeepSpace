@@ -1,6 +1,10 @@
 plugins {
     id "java"
+<<<<<<< Updated upstream
     id "edu.wpi.first.GradleRIO" version "2019.3.2"
+=======
+    id "edu.wpi.first.GradleRIO" version "2019.4.1"
+>>>>>>> Stashed changes
 }
 
 def ROBOT_MAIN_CLASS = "frc.robot.Main"
