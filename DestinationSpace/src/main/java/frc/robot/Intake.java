@@ -1,20 +1,19 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Spark;
+import frc.robot.motor.SparkMotor;
 import frc.robot.LimitSwitch.OperatingMode;
 import edu.wpi.first.wpilibj.DigitalInput;
+
 public class Intake {
-    //Intake left motor
-    private Spark left;
-    //Intake right motor
-    private Spark right;
+    private SparkMotor left;
+    private SparkMotor right;
     private LimitSwitch limitSwitch;
     private double leftPower;
     private double rightPower;
 
     public Intake(int leftSpark, int rightSpark) {
-        left = new Spark(leftSpark);
-        right = new Spark(rightSpark);
+        left = new SparkMotor(leftSpark);
+        right = new SparkMotor(rightSpark);
         // limitSwitch = new LimitSwitch(0, OperatingMode.NC);
     }
 

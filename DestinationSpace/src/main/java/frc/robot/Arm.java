@@ -1,6 +1,8 @@
 package frc.robot;
 
-import com.revrobotics.CANSparkMax;
+import frc.robot.motor.MotorSet;
+import frc.robot.motor.CANSpark;
+
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -10,13 +12,18 @@ public class Arm {
     private static double minRange = 0;
     private static double maxRange = 75;
     
-    private CANSparkMax max;
+    private MotorSet<CANSpark> motor;
     private CANEncoder encoder;
     
+    private UnitSustain positionSustain;
+
     public Arm(int port) {
-        max = new CANSparkMax(4, MotorType.kBrushless);
-        max.restoreFactoryDefaults();
-        encoder = max.getEncoder();
+        motor = new MotorSet<CANSpark>();
+        CANSpark sparkMax = new CANSpark(4, MotorType.kBrushless);
+        motor.add(sparkMax);
+        encoder = sparkMax.getEncoder();
+
+        positionSustain = new UnitSustain(motor, minRange, maxRange);
     }
     
     public void update(LogitechGamepad gamepad) {
@@ -24,19 +31,29 @@ public class Arm {
         double power = Math.min(Math.abs(gamepad.getRightYAxis()), .5);//gamepad.sticks.RIGHT_Y.getRaw(), .5);
         power *= Math.signum(gamepad.getRightYAxis());
 
+        if (power != 0) {
+            sustainPosition(0);
+        }
+
         if (position > minRange && position < maxRange) {
-            max.set(power);
+            motor.power(power);
         } else {
             if ((position < minRange && power > 0) ||
                 (position > maxRange && power < 0)) {
-                max.set(power);
+                motor.power(power);
             } else {
-                max.set(0); 
+                motor.power(0); 
             }
         }
+
+        positionSustain.update(position);
     }
 
-    public CANSparkMax getMotor() {
-        return max;
+    public void sustainPosition(double position) {
+        positionSustain.setHeight(position);
+    }
+
+    public CANSpark getMotor() {
+        return motor.get(0);
     }
 }

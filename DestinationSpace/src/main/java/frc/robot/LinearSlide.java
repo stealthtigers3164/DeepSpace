@@ -1,35 +1,45 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import frc.robot.motor.MotorSet;
+import frc.robot.motor.SparkMotor;
 
 public class LinearSlide
 {
     private Encoder encoder;
-    private Spark m_right;
-    private Spark m_left;
+    private MotorSet<SparkMotor> motorSet;
 
     private double minRange;
     private double maxRange;
     
+    private UnitSustain<SparkMotor> heightSustainer;
+
     public LinearSlide(int rightPort, int leftPort, int channelA, int channelB) {
-        m_right = new Spark(rightPort);
-        m_left = new Spark(leftPort);
-        
+        motorSet = new MotorSet<SparkMotor>();
+        motorSet.add(new SparkMotor(rightPort));
+        motorSet.add(new SparkMotor(leftPort));
+
         encoder = new Encoder(channelA, channelB);
         encoder.setDistancePerPulse(10);
 
         minRange = getHeight();
         maxRange = -23000;
+
+        heightSustainer = new UnitSustain<SparkMotor>(motorSet, minRange, maxRange);
     }
     
     private void power(double in_power) {
         double sign = Math.signum(in_power);
         double power = sign * Math.min(Math.abs(in_power), .5);
-        m_right.set(power);
-        m_left.set(power);
         
+        if (power != 0) {
+            sustainHeight(0);
+        }
+
+        motorSet.power(power);
+
         double currentHeight = getHeight();
         
         SmartDashboard.putNumber("currentHeight", currentHeight);
@@ -38,19 +48,21 @@ public class LinearSlide
         if (currentHeight > minRange &&
             currentHeight < maxRange)
         {
-            m_right.set(power);
-            m_left.set(power);
+            motorSet.power(power);
         }
         else {
-            if ((currentHeight < minRange && power < 0) ||
-            (currentHeight > maxRange && power > 0)) {
-                m_right.set(power);
-                m_left.set(power);
+            if ((currentHeight < minRange && power < 0) || (currentHeight > maxRange && power > 0)) {
+                motorSet.power(power);
             } else {
-                m_right.set(0);
-                m_left.set(0);
+                motorSet.power(0);
             }
         }
+
+        heightSustainer.update(currentHeight);
+    }
+
+    public void sustainHeight(double targetHeight) {
+        heightSustainer.setHeight(targetHeight);
     }
 
     public void update(LogitechGamepad gamepad2) {

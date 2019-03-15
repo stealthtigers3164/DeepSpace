@@ -1,13 +1,13 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Spark;
+import frc.robot.motor.SparkMotor;
 
 public class TankDrive 
 {
-    private Spark m_frontLeft;
-    private Spark m_backLeft;
-    private Spark m_frontRight;
-    private Spark m_backRight;
+    private SparkMotor m_frontLeft;
+    private SparkMotor m_backLeft;
+    private SparkMotor m_frontRight;
+    private SparkMotor m_backRight;
     private double approximateDistance;
     private Limelight limeLight;
     private UltrasonicSensor rangeFinder;
@@ -16,10 +16,10 @@ public class TankDrive
     public TankDrive(int frontLeft, int backLeft, int frontRight, int backRight, 
                      Limelight limeLight, int channelA, int channelB)
     {
-        m_frontLeft = new Spark(frontLeft);
-        m_backLeft = new Spark(backLeft);
-        m_frontRight = new Spark(frontRight);
-        m_backRight = new Spark(backRight);
+        m_frontLeft = new SparkMotor(frontLeft);
+        m_backLeft = new SparkMotor(backLeft);
+        m_frontRight = new SparkMotor(frontRight);
+        m_backRight = new SparkMotor(backRight);
         this.limeLight = limeLight;
         this.rangeFinder = new UltrasonicSensor(channelA, channelB);
 
