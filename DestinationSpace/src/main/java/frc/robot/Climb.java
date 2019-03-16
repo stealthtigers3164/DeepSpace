@@ -1,8 +1,11 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
+import frc.robot.pneumatics.DoubleSolenoid;
+import frc.robot.pneumatics.Solenoid;
+// import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+
 public class Climb {
     private DoubleSolenoid frontPiston;
     private Solenoid backPiston;
@@ -13,27 +16,23 @@ public class Climb {
     }
 
     public void update(LogitechGamepad gamepad) {
-        boolean hasBeenUsed = false;
-
+        frontPiston.reset();
         boolean a_forward = gamepad.isLeftTriggerDown(true);
         boolean a_reverse = gamepad.isRightTriggerDown(true);
         boolean b_out = gamepad.isLBDown();
-        if(hasBeenUsed) {
-            return; 
-        } else {
-            if (a_forward) {
-                frontPiston.set(Value.kForward);
-            }
-            if (a_reverse) {
-                frontPiston.set(Value.kReverse);
-            }
-            if (b_out) {
-                backPiston.set(true);
-            } else {
-                frontPiston.set(Value.kOff);
-                backPiston.set(false);
-                hasBeenUsed = true;
-            }
+        boolean b_in = gamepad.isRBDown();
+
+        if (a_forward) {
+            frontPiston.fire();
+        }
+        if (a_reverse) {
+            frontPiston.retract();
+        }
+        if (b_out) {
+            backPiston.fire();
+        } 
+        if (b_in) {
+            backPiston.retract();
         }
     }
 

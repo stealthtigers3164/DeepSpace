@@ -1,4 +1,4 @@
-package frc.robot;
+package frc.robot.mechanisms;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -16,7 +16,7 @@ public class LinearSlide
     
     private UnitSustain<SparkMotor> heightSustainer;
 
-    public LinearSlide(int rightPort, int leftPort, int channelA, int channelB) {
+    public LinearSlide(int rightPort, int leftPort, int channelA, int channelB, double minRange, double maxRange) {
         motorSet = new MotorSet<SparkMotor>();
         motorSet.add(new SparkMotor(rightPort));
         motorSet.add(new SparkMotor(leftPort));
@@ -24,8 +24,8 @@ public class LinearSlide
         encoder = new Encoder(channelA, channelB);
         encoder.setDistancePerPulse(10);
 
-        minRange = getHeight();
-        maxRange = -23000;
+        this.minRange = minRange;//getHeight();
+        this.maxRange = maxRange;//-23000;
 
         heightSustainer = new UnitSustain<SparkMotor>(motorSet, minRange, maxRange);
     }

@@ -47,7 +47,7 @@ public class Robot extends TimedRobot
     camera.getInstance().startAutomaticCapture(1);
     // camera.setFPS(20);
 
-    linear = new LinearSlide(0, 1, 0, 1);
+    linear = new LinearSlide(0, 1, 0, 1, 0, -23000);
     arm = new Arm(4);
     intake = new Intake(3, 2);
     hatch = new Hatch(4, 5);
