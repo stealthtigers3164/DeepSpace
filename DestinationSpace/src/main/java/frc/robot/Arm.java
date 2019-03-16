@@ -28,11 +28,17 @@ public class Arm {
     
     public void update(LogitechGamepad gamepad) {
         double position = encoder.getPosition();
-        double power = Math.min(Math.abs(gamepad.getRightYAxis()), .5);//gamepad.sticks.RIGHT_Y.getRaw(), .5);
-        power *= Math.signum(gamepad.getRightYAxis());
+        double power = Math.min(Math.abs(gamepad.getRightYAxis()), .3);//gamepad.sticks.RIGHT_Y.getRaw(), .5);
+        power *= -Math.signum(gamepad.getRightYAxis());
+
+        SmartDashboard.putNumber("position", position);
+
+        if (gamepad.isXDown()) {
+            sustainPosition(25);
+        }
 
         if (power != 0) {
-            sustainPosition(0);
+            positionSustain.moveFree();
         }
 
         if (position > minRange && position < maxRange) {
@@ -46,7 +52,11 @@ public class Arm {
             }
         }
 
+        SmartDashboard.putString("update", "update");
         positionSustain.update(position);
+        SmartDashboard.putString("update", "test");
+
+        SmartDashboard.putBoolean("gamepad.isXDown()", gamepad.isXDown());
     }
 
     public void sustainPosition(double position) {

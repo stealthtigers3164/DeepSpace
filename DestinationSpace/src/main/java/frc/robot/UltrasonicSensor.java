@@ -7,20 +7,16 @@ public class UltrasonicSensor{
 
     private Ultrasonic ultra;
 
-    public UltrasonicSensor(int one, int two){
-        ultra = new Ultrasonic(one, two);
-        ultra.setAutomaticMode(true);
+    public UltrasonicSensor(int ping, int echo){
+        ultra = new Ultrasonic(ping, echo);
         ultra.setEnabled(true);
-    }
-
-    public double getDistance() {
-        double value = ultra.getRangeInches() / 12;
-        return value;
+        ultra.setAutomaticMode(true);
     }
 
     public double getDistanceInches() {
         double value = ultra.getRangeInches();
         SmartDashboard.putBoolean("Is above zero", value > 0);
+        SmartDashboard.putNumber("inches", value);
         return value;
     }
 

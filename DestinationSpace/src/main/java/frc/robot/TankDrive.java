@@ -1,6 +1,7 @@
 package frc.robot;
 
 import frc.robot.motor.SparkMotor;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TankDrive 
 {
@@ -32,9 +33,13 @@ public class TankDrive
         double distance_adjust = 0;
         approximateDistance = rangeFinder.getDistanceInches();
 
+        SmartDashboard.putNumber("approximateDistance", approximateDistance);
         if(shouldAlign) {
-            steering_adjust = Math.min(limeLight.getTX(), .5) ;
+            limeLight.setCameraMode(false);
+            steering_adjust = Math.min(Math.abs(limeLight.getTX()) / 20, 1) ;
+            steering_adjust *= Math.signum(limeLight.getTX());
             distance_adjust = Math.min(approximateDistance / 100, .5);
+
 
             if (distance_adjust > 1) {
                 distance_adjust = 1;
@@ -42,11 +47,11 @@ public class TankDrive
 
             if (approximateDistance <= range) {
                 distance_adjust = 0;
-                steering_adjust = 0;
+                // steering_adjust = 0;
             }
         }
 
-        double rightY = gamepad.getRightXAxis();
+        double rightY = Math.signum(gamepad.getRightXAxis()) * Math.min(Math.abs(gamepad.getRightXAxis()), .75);
         double leftX = gamepad.getLeftYAxis();
       
         double leftPowerRaw = rightY - leftX;

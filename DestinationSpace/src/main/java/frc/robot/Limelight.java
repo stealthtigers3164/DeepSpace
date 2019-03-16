@@ -22,7 +22,7 @@ public class Limelight
         if (table == null) {
             table = NetworkTableInstance.getDefault().getTable("limelight");
         }
-        double tx = (table.getEntry("tx").getDouble(0) + offset)/50.0;
+        double tx = (table.getEntry("tx").getDouble(0));
         //NOTE: Getting the tx variable from network tables is not a one time thing
         //Once the value changes you have to get it again
         return tx;
@@ -81,4 +81,19 @@ public class Limelight
     public double getDistance() {
         return (getTY() + half_h) / h;
     }
+
+    public void setCameraMode(boolean mode) {
+        if (table == null) {
+            table = NetworkTableInstance.getDefault().getTable("limelight");
+        }
+        if (mode) {
+            table.getEntry("ledMode").setNumber(1);
+            table.getEntry("camMode").setNumber(1);
+        } else {
+            table.getEntry("camMode").setNumber(0);
+            table.getEntry("ledMode").setNumber(3);
+        }
+        // SmartDashboard.putBoolean("camMode on?", table.getEntry("camMode"));
+    }
+
 }

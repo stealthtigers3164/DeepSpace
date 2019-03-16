@@ -35,7 +35,7 @@ public class LinearSlide
         double power = sign * Math.min(Math.abs(in_power), .5);
         
         if (power != 0) {
-            sustainHeight(0);
+            heightSustainer.moveFree();
         }
 
         motorSet.power(power);
