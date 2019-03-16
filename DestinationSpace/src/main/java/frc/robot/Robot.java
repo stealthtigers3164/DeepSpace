@@ -31,7 +31,6 @@ public class Robot extends TimedRobot
 
   private AutoAlign alignment;
   private CameraServer camera;
-
   @Override
   public void robotInit() 
   {
@@ -46,6 +45,7 @@ public class Robot extends TimedRobot
     tank = new TankDrive(6, 7, 8, 9, limelight, 2, 3);//2310 for practice pneumatic bot
     camera.getInstance().startAutomaticCapture(0);
     camera.getInstance().startAutomaticCapture(1);
+    // camera.setFPS(20);
 
     linear = new LinearSlide(0, 1, 0, 1);
     arm = new Arm(4);
