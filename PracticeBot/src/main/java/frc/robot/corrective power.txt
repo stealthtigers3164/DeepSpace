@@ -1,0 +1,2 @@
+for example, if getRate = 3in/s and then the motor is turned off and the rate returns 0, then how do i set speed as acceleration
+speed = time * distance <3

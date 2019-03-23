@@ -1,0 +1,3 @@
+☐ add feature so slide zeros when it reaches max distance traveled (81 inches or so)
+☐ add test capabilities to smartdashboard for linear slide PID control
+☐ turn off limelight until robot is enabled
