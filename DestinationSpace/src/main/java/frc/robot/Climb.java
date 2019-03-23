@@ -2,9 +2,6 @@ package frc.robot;
 
 import frc.robot.pneumatics.DoubleSolenoid;
 import frc.robot.pneumatics.Solenoid;
-// import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 public class Climb {
     private DoubleSolenoid frontPiston;

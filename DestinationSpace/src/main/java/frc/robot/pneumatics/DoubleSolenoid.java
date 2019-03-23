@@ -16,7 +16,7 @@ public class DoubleSolenoid {
             hasBeenUsed = true;
         }
 
-        hatchPiston.set(edu.wpi.first.wpilibj.DoubleSolenoid.Value.kForward);
+        piston.set(edu.wpi.first.wpilibj.DoubleSolenoid.Value.kForward);
     }
 
     public void retract() {
@@ -31,7 +31,7 @@ public class DoubleSolenoid {
 
     public void reset() {
         hasBeenUsed = false;
-        hatchPiston.set(edu.wpi.first.wpilibj.DoubleSolenoid.Value.kOff);
+        piston.set(edu.wpi.first.wpilibj.DoubleSolenoid.Value.kOff);
     }
 
     public edu.wpi.first.wpilibj.DoubleSolenoid getPiston() {

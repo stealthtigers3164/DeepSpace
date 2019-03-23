@@ -25,7 +25,7 @@ public class Hatch {
         if (gamepad.isRBDown()){
             hold();
         }
-        if (gamepad.isLBDown()){
+        if (gamepad.isLBDown()){//gamepad.buttons.BUTTON_LB.isOn()) {
             release();
         }
     }
