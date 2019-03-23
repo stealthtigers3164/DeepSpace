@@ -10,8 +10,6 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import frc.robot.UnitSustain;
-
 public class Arm {
     private static double minRange = 0;
     private static double maxRange = 75;
@@ -19,15 +17,11 @@ public class Arm {
     private MotorSet<CANSpark> motor;
     private CANEncoder encoder;
     
-    private UnitSustain<CANSpark> positionSustain;
-
     public Arm(int port) {
         motor = new MotorSet<CANSpark>();
         CANSpark sparkMax = new CANSpark(4, MotorType.kBrushless);
         motor.add(sparkMax);
         encoder = sparkMax.getEncoder();
-
-        positionSustain = new UnitSustain(motor, minRange, maxRange);
     }
     
     public void update(LogitechGamepad gamepad) {
@@ -37,13 +31,6 @@ public class Arm {
 
         SmartDashboard.putNumber("position", position);
 
-        if (gamepad.isXDown()) {
-            sustainPosition(25);
-        }
-
-        if (power != 0) {
-            positionSustain.moveFree();
-        }
 
         if (position > minRange && position < maxRange) {
             motor.power(power);
@@ -55,16 +42,6 @@ public class Arm {
                 motor.power(0); 
             }
         }
-
-        SmartDashboard.putString("update", "update");
-        positionSustain.update(position);
-        SmartDashboard.putString("update", "test");
-
-        SmartDashboard.putBoolean("gamepad.isXDown()", gamepad.isXDown());
-    }
-
-    public void sustainPosition(double position) {
-        positionSustain.setHeight(position);
     }
 
     public CANSpark getMotor() {

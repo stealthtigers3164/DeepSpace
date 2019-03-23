@@ -41,23 +41,23 @@ public class Robot extends TimedRobot
     // gamepad2 = new Gamepad(1);
 
     gamepad1 = new LogitechGamepad(0);
-    gamepad2 = new LogitechGamepad(1);
+    // gamepad2 = new LogitechGamepad(1);
 
     limelight = new Limelight();
 
     tank = new TankDrive(6, 7, 8, 9, limelight, 2, 3);//2310 for practice pneumatic bot
-    camera.getInstance().startAutomaticCapture(0);
-    camera.getInstance().startAutomaticCapture(1);
+    // camera.getInstance().startAutomaticCapture(0);
+    // camera.getInstance().startAutomaticCapture(1);
     // camera.setFPS(20);
 
-    linear = new LinearSlide(0, 1, 0, 1, 0, -23000);
+    // linear = new LinearSlide(0, 1, 0, 1, 0, -23000);
     // arm = new Arm(4);
     // intake = new Intake(3, 2);
     // hatch = new Hatch(4, 5);
-    compressor = new Compressor(0);
-    // compressor.setClosedLoopControl(true);
-    climb = new Climb(0, 1, 2); //definitely change these
-    alignment = new AutoAlign(linear, intake, hatch, arm);
+    // compressor = new Compressor(0);
+    // // compressor.setClosedLoopControl(true);
+    // climb = new Climb(0, 1, 2); //definitely change these
+    // alignment = new AutoAlign(linear, intake, hatch, arm);
   }
 
   @Override
@@ -73,15 +73,15 @@ public class Robot extends TimedRobot
   public void update() {
     // hatch.reset();
 
-    linear.update(gamepad2);
+    // linear.update(gamepad2);
     // SmartDashboard.putString("update", "update");    
     // arm.update(gamepad2);
 
     // intake.update(gamepad2);
     // hatch.update(gamepad2);
     // alignment.update(gamepad1);
-    climb.update(gamepad1);
-    limelight.setCameraMode(true);
+    // climb.update(gamepad1);
+    // limelight.setCameraMode(true);
     tank.update(gamepad1, gamepad1.isXDown());
   }
 

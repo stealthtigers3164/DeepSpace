@@ -1,6 +1,5 @@
 package frc.robot.mechanisms;
 
-import frc.robot.UnitSustain;
 import frc.robot.LogitechGamepad;
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -8,6 +7,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import frc.robot.motor.MotorSet;
 import frc.robot.motor.SparkMotor;
+import frc.robot.LogitechGamepad;
+import frc.robot.mechanisms.Arm;
 
 public class LinearSlide
 {
@@ -17,8 +18,6 @@ public class LinearSlide
     private double minRange;
     private double maxRange;
     
-    private UnitSustain<SparkMotor> heightSustainer;
-
     public LinearSlide(int rightPort, int leftPort, int channelA, int channelB, double minRange, double maxRange) {
         motorSet = new MotorSet<SparkMotor>();
         motorSet.add(new SparkMotor(rightPort));
@@ -29,18 +28,12 @@ public class LinearSlide
 
         this.minRange = minRange;//getHeight();
         this.maxRange = maxRange;//-23000;
-
-        heightSustainer = new UnitSustain<SparkMotor>(motorSet, minRange, maxRange);
     }
     
     private void power(double in_power) {
         double sign = Math.signum(in_power);
         double power = sign * Math.min(Math.abs(in_power), .5);
         
-        if (power != 0) {
-            heightSustainer.moveFree();
-        }
-
         motorSet.power(power);
 
         double currentHeight = getHeight();
@@ -60,12 +53,6 @@ public class LinearSlide
                 motorSet.power(0);
             }
         }
-
-        heightSustainer.update(currentHeight);
-    }
-
-    public void sustainHeight(double targetHeight) {
-        heightSustainer.setHeight(targetHeight);
     }
 
     public void update(LogitechGamepad gamepad2) {
