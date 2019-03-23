@@ -1,5 +1,8 @@
 package frc.robot;
 
+import frc.robot.mechanisms.LinearSlide;
+import frc.robot.mechanisms.Arm;
+
 public class AutoAlign {
     private LinearSlide slide;
     private Intake intake;

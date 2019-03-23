@@ -1,4 +1,6 @@
-package frc.robot;
+package frc.robot.mechanisms;
+
+import frc.robot.LogitechGamepad;
 
 import frc.robot.motor.MotorSet;
 import frc.robot.motor.CANSpark;
@@ -8,6 +10,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import frc.robot.UnitSustain;
+
 public class Arm {
     private static double minRange = 0;
     private static double maxRange = 75;
@@ -15,7 +19,7 @@ public class Arm {
     private MotorSet<CANSpark> motor;
     private CANEncoder encoder;
     
-    private UnitSustain positionSustain;
+    private UnitSustain<CANSpark> positionSustain;
 
     public Arm(int port) {
         motor = new MotorSet<CANSpark>();

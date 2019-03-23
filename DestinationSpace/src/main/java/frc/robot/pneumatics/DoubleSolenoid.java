@@ -5,7 +5,7 @@ public class DoubleSolenoid {
     private boolean hasBeenUsed;
 
     public DoubleSolenoid(int a, int b) {
-        piston = edu.wpi.first.wpilibj.DoubleSolenoid(a, b);
+        piston = new edu.wpi.first.wpilibj.DoubleSolenoid(a, b);
         hasBeenUsed = false;
     }
 

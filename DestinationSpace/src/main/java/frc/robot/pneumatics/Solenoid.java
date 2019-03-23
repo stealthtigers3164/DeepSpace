@@ -4,7 +4,7 @@ public class Solenoid {
     private edu.wpi.first.wpilibj.Solenoid piston;
 
     public Solenoid(int port) {
-        piston = edu.wpi.first.wpilibj.Solenoid(port);
+        piston = new edu.wpi.first.wpilibj.Solenoid(port);
     }
 
     public void fire() {

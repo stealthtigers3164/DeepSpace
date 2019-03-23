@@ -13,6 +13,9 @@ import edu.wpi.first.wpilibj.*;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import frc.robot.mechanisms.LinearSlide;
+import frc.robot.mechanisms.Arm;
+
 public class Robot extends TimedRobot 
 {
   private Compressor compressor;
@@ -48,9 +51,9 @@ public class Robot extends TimedRobot
     // camera.setFPS(20);
 
     linear = new LinearSlide(0, 1, 0, 1, 0, -23000);
-    arm = new Arm(4);
-    intake = new Intake(3, 2);
-    hatch = new Hatch(4, 5);
+    // arm = new Arm(4);
+    // intake = new Intake(3, 2);
+    // hatch = new Hatch(4, 5);
     compressor = new Compressor(0);
     // compressor.setClosedLoopControl(true);
     climb = new Climb(0, 1, 2); //definitely change these
@@ -68,16 +71,16 @@ public class Robot extends TimedRobot
   }
 
   public void update() {
-    hatch.reset();
+    // hatch.reset();
 
     linear.update(gamepad2);
-    SmartDashboard.putString("update", "update");    
-    arm.update(gamepad2);
+    // SmartDashboard.putString("update", "update");    
+    // arm.update(gamepad2);
 
-    intake.update(gamepad2);
-    hatch.update(gamepad2);
+    // intake.update(gamepad2);
+    // hatch.update(gamepad2);
     // alignment.update(gamepad1);
-    // climb.update(gamepad1);
+    climb.update(gamepad1);
     limelight.setCameraMode(true);
     tank.update(gamepad1, gamepad1.isXDown());
   }
