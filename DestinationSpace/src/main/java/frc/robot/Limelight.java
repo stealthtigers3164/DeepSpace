@@ -87,13 +87,24 @@ public class Limelight
             table = NetworkTableInstance.getDefault().getTable("limelight");
         }
         if (mode) {
-            table.getEntry("ledMode").setNumber(1);
+            ledOn(true);
             table.getEntry("camMode").setNumber(1);
         } else {
+            ledOn(false);
             table.getEntry("camMode").setNumber(0);
-            table.getEntry("ledMode").setNumber(3);
         }
         // SmartDashboard.putBoolean("camMode on?", table.getEntry("camMode"));
+    }
+
+    public void ledOn(boolean mode) {
+        if (table == null) {
+            table = NetworkTableInstance.getDefault().getTable("limelight");
+        }
+        if (mode) {
+            table.getEntry("ledMode").setNumber(1);
+        } else {
+            table.getEntry("ledMode").setNumber(3);
+        }
     }
 
 }

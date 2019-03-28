@@ -1,0 +1,6 @@
+☐ make encoder count zero when it reaches max distance
+☐ make encoder decrement when joystick pos is negative
+☐ add software stops
+☐ add tuning capabilities for height sustain
+☐ add test capabilities to smartdashboard for linear slide PID control
+☐ turn off limelight until robot is enabled

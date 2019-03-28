@@ -27,13 +27,12 @@ public class LinearSlide
         encoder.setDistancePerPulse(distancePerPulse); //distance per pulse = 0.1461
     }
 
-    public void update(LogitechGamepad gamepad, double maxDistance, double correctivePower) {
+    public void update(LogitechGamepad gamepad, /*double maxDistance,*/ double correctivePower) {
         double position = gamepad.getLeftYAxis();
         SmartDashboard.putNumber("Position of joystick", position);
-        setLimit(maxDistance);
-        absoluteMode(position, true);
+        // setLimit(maxDistance);
+        // absoluteMode(position, true);
         if((-0.006 < position) && (position < 0.006)) {
-            // double height = encoder.getDistance();
             double height = encoder.getDistance();
             motorSet.set(0);
             SmartDashboard.putNumber("Encoder count", encoder.get());
@@ -80,12 +79,5 @@ public class LinearSlide
 
     public boolean getEncoderDirection() {
         return encoderDirection;
-    }
-
-    public double correctPower(boolean enabled, double p, double i, double d, double setpoint) {
-        PIDController pidController = new PIDController(p, i, d, this.encoder, this.motorSet);
-        pidController.setSetpoint(setpoint); 
-        pidController.setEnabled(enabled);
-        return pidController.get();                                              
     }
 }

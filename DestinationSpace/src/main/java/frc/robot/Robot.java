@@ -27,6 +27,8 @@ public class Robot extends TimedRobot
   
   private Limelight limelight;
   private LinearSlide linear;
+  private Preferences prefs;
+  private double slidePower;
   private Arm arm;
   private Intake intake;
   private Hatch hatch;
@@ -34,6 +36,7 @@ public class Robot extends TimedRobot
 
   private AutoAlign alignment;
   private CameraServer camera;
+
   @Override
   public void robotInit() 
   {
@@ -41,21 +44,24 @@ public class Robot extends TimedRobot
     // gamepad2 = new Gamepad(1);
 
     gamepad1 = new LogitechGamepad(0);
-    // gamepad2 = new LogitechGamepad(1);
+    gamepad2 = new LogitechGamepad(1);
 
     limelight = new Limelight();
+    limelight.ledOn(false);
 
     tank = new TankDrive(6, 7, 8, 9, limelight, 2, 3);//2310 for practice pneumatic bot
-    // camera.getInstance().startAutomaticCapture(0);
+    camera.getInstance().startAutomaticCapture(0);
     // camera.getInstance().startAutomaticCapture(1);
-    // camera.setFPS(20);
 
-    // linear = new LinearSlide(0, 1, 0, 1, 0, -23000);
+    linear = new LinearSlide(0, 1, false, 0, 1, false, 0.1461);
+    prefs = Preferences.getInstance(); 
+    slidePower = prefs.getDouble("Slide Power", 0.0125);
+
     // arm = new Arm(4);
     // intake = new Intake(3, 2);
     // hatch = new Hatch(4, 5);
     // compressor = new Compressor(0);
-    // // compressor.setClosedLoopControl(true);
+    // compressor.setClosedLoopControl(true);
     // climb = new Climb(0, 1, 2); //definitely change these
     // alignment = new AutoAlign(linear, intake, hatch, arm);
   }
@@ -73,7 +79,7 @@ public class Robot extends TimedRobot
   public void update() {
     // hatch.reset();
 
-    // linear.update(gamepad2);
+    linear.update(gamepad2, true, slidePower);
     // SmartDashboard.putString("update", "update");    
     // arm.update(gamepad2);
 
@@ -102,123 +108,6 @@ public class Robot extends TimedRobot
   int testStagePointer = 0;
 
   @Override
-  public void testPeriodic() 
-  {
-    if (testTimer == null) {
-      testTimer = new Timer();
-    }
-
-    switch(testIndex)
-    {
-      case 0:
-      {
-        if (testStagePointer == 0) {
-          testTimer.reset();
-          testTimer.start();
-          linear.setPower(-.3);
-
-          if (testTimer.get() >= 2) {
-            testTimer.stop();
-            testTimer.reset();
-            testTimer.start();
-    
-            linear.setPower(.3);
-            ++testStagePointer;
-          }
-        }
-        else if (testStagePointer == 1) {
-          if (testTimer.get() >= 1) {
-            testTimer.stop();
-            testTimer.reset();
-    
-            linear.setPower(0);
-            testStagePointer = 0;
-          }
-        }
-
-      }break;
-      case 1:
-      {
-        if (testStagePointer == 0) {
-          testTimer.reset();
-          testTimer.start();
-
-          tank.setPower(-.5, .5);
-          
-          if (testTimer.get() >= 1) {
-            testTimer.stop();
-            testTimer.reset();
-    
-            tank.setPower(.5, -.5);
-            ++testStagePointer;
-          }
-        }
-        else if (testStagePointer == 1) {
-          if (testTimer.get() >= 1) {
-            testTimer.stop();
-            testTimer.reset();
-    
-            tank.setPower(0, 0);
-            testStagePointer = 0;
-          }
-        }
-      }break;
-      case 2:
-      {
-        if (testStagePointer == 0) {
-          testTimer.reset();
-          testTimer.start();
-
-          arm.getMotor().set(.3);
-          
-          if (testTimer.get() >= .5) {
-            testTimer.stop();
-            testTimer.reset();
-    
-            arm.getMotor().set(-.3);
-            ++testStagePointer;
-          }
-        }
-        else if (testStagePointer == .5) {
-          if (testTimer.get() >= 1) {
-            testTimer.stop();
-            testTimer.reset();
-    
-            arm.getMotor().set(0);
-            testStagePointer = 0;
-          }
-        }
-      }break;
-      case 3:
-      {
-        if (testStagePointer == 0) {
-          testTimer.reset();
-          testTimer.start();
-
-          intake.setPower(1);
-          
-          if (testTimer.get() >= .5) {
-            testTimer.stop();
-            testTimer.reset();
-    
-            intake.setPower(-1);
-            ++testStagePointer;
-          }
-        }
-        else if (testStagePointer == .5) {
-          if (testTimer.get() >= 1) {
-            testTimer.stop();
-            testTimer.reset();
-    
-            intake.setPower(0);
-            testStagePointer = 0;
-          }
-        }
-      }break;
-      default:
-      {
-        //NOTE: This is not good something went wrong in the test function
-      }break;
-    }
+  public void testPeriodic() {
   }
 }
