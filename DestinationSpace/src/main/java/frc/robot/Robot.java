@@ -40,9 +40,6 @@ public class Robot extends TimedRobot
   @Override
   public void robotInit() 
   {
-    // gamepad1 = new Gamepad(0);
-    // gamepad2 = new Gamepad(1);
-
     gamepad1 = new LogitechGamepad(0);
     gamepad2 = new LogitechGamepad(1);
 
@@ -53,15 +50,15 @@ public class Robot extends TimedRobot
     camera.getInstance().startAutomaticCapture(0);
     // camera.getInstance().startAutomaticCapture(1);
 
-    linear = new LinearSlide(0, 1, false, 0, 1, false, 0.1461);
+    linear = new LinearSlide(0, 1, true, 0, 1, true, 0.1461);
     prefs = Preferences.getInstance(); 
     slidePower = prefs.getDouble("Slide Power", 0.0125);
 
     // arm = new Arm(4);
     // intake = new Intake(3, 2);
     // hatch = new Hatch(4, 5);
-    // compressor = new Compressor(0);
-    // compressor.setClosedLoopControl(true);
+    compressor = new Compressor(0);
+    compressor.setClosedLoopControl(true);
     // climb = new Climb(0, 1, 2); //definitely change these
     // alignment = new AutoAlign(linear, intake, hatch, arm);
   }
@@ -79,7 +76,8 @@ public class Robot extends TimedRobot
   public void update() {
     // hatch.reset();
 
-    linear.update(gamepad2, true, slidePower);
+    linear.update(gamepad2);
+    // linear.update(gamepad2, true, slidePower);
     // SmartDashboard.putString("update", "update");    
     // arm.update(gamepad2);
 

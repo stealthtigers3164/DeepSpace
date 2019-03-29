@@ -13,21 +13,35 @@ public class LinearSlide
 {
     private Encoder encoder;
     private SpeedControllerGroup motorSet;
-    private boolean encoderDirection;
-    private Preferences corrections;
 
+    /**
+     * Inititalize a linear slide object with two motors, an encoder, and the distance per pulse
+     * @param rightPort The port for the right-most motor
+     * @param leftPort The port for the left-most motor
+     * @param isMotorInverted Whether the motor is inverted
+     * @param channelA DIO port for encoder channel A
+     * @param channelB DIO port for encoder channel B
+     * @param isEncoderInverted Whether the encoder should invert its counts
+     * @param distancePerPulse Distance per encoder pulse, in inches
+     */
     public LinearSlide(int rightPort, int leftPort, boolean isMotorInverted, int channelA, int channelB, boolean isEncoderInverted, double distancePerPulse) {
         SparkMotor right = new SparkMotor(rightPort);
         SparkMotor left = new SparkMotor(leftPort);
         motorSet = new SpeedControllerGroup(right.getMotor(), left.getMotor());
         motorSet.setInverted(isMotorInverted);
-        encoder = new Encoder(channelA, channelB);
-        setEncoderDirection(isEncoderInverted);
+        encoder = new Encoder(channelA, channelB, isEncoderInverted);
+        // setEncoderDirection(isEncoderInverted);
         //inches per pulse, based on encoder's ppr and motors' reduced free speed & stall torque
         encoder.setDistancePerPulse(distancePerPulse); //distance per pulse = 0.1461
     }
 
-    public void update(LogitechGamepad gamepad, boolean enableSustain, /*double maxDistance,*/ double correctivePower) {
+    /**
+     * Control the linear slide with a gamepad, using a relative encoder to sustain height when joystick pos returns "0"
+     * @param gamepad Logitech gamepad object with which to control the slide
+     * @param enableSustain Whether the slide should sustain its height when the joystick is neutral
+     * @param counterPower The counter-power for sustaining slide height
+     */
+    public void update(LogitechGamepad gamepad, boolean enableSustain, /*double maxDistance,*/ double counterPower) {
         double position = gamepad.getLeftYAxis();
         SmartDashboard.putNumber("Position of joystick", position);
         // setLimit(maxDistance);
@@ -41,43 +55,39 @@ public class LinearSlide
             do {
                 double error = height - encoder.getDistance();
                 SmartDashboard.putNumber("Error", error);
-                SmartDashboard.putNumber("Corrective power", correctivePower);
+                SmartDashboard.putNumber("Corrective power", counterPower);
                 if (error != 0) {
-                    motorSet.set(correctivePower);
+                    motorSet.set(counterPower);
                 }
             } while ((-0.006 < position) && (position < 0.006));
         } else {
             motorSet.set(position);
         }
     }
+    /**
+     * Control the linear slide using a gamepad
+     * @param gamepad
+     */
+    public void update(LogitechGamepad gamepad) {
+        double position = gamepad.getLeftYAxis();
+        SmartDashboard.putNumber("Position of joystick", position);
+        motorSet.set(position);
+    }
 
+    //this won't work to actually limit the slide, will reset() whenever value is hit UNLESS decrement method works
     public void setLimit(double maxDistance) {
         if((Math.abs(encoder.getDistance())) == (Math.abs(maxDistance))) {
             encoder.reset();
         }
     }
-    //this won't work to actually limit the slide, will reset() whenever value is hit UNLESS decrement method works
 
-    public void absoluteMode(double direction, boolean enabled) {
-        boolean isEncoderInverted = getEncoderDirection();
-        if(Math.signum(direction) < 0) {
-            encoder.setReverseDirection(!isEncoderInverted);
-        } else {
-            encoder.setReverseDirection(isEncoderInverted);
-        }
-    }
-    //i don't think this will actually decrement
-
-    public void setEncoderDirection(boolean isEncoderInverted) {
-        if(isEncoderInverted) {
-            encoderDirection = true;
-        } else {
-            encoderDirection = false;
-        }
-        setEncoderDirection(encoderDirection);
-    }
-
-    public boolean getEncoderDirection() {
-        return encoderDirection;
-    }
+    //this function does not decrement
+    // public void absoluteMode(double direction, boolean enabled) {
+    //     boolean isEncoderInverted = getEncoderDirection();
+    //     if(Math.signum(direction) < 0) {
+    //         encoder.setReverseDirection(!isEncoderInverted);
+    //     } else {
+    //         encoder.setReverseDirection(isEncoderInverted);
+    //     }
+    // }
 }

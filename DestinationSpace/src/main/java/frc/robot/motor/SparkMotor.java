@@ -2,7 +2,7 @@ package frc.robot.motor;
 
 import edu.wpi.first.wpilibj.Spark;
 
-public class SparkMotor extends Motor<Spark> {
+public class  SparkMotor extends Motor<Spark> {
     private Spark spark;
 
     public SparkMotor(int port) {
