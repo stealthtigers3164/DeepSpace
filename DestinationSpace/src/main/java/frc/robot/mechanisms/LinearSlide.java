@@ -54,12 +54,16 @@ public class LinearSlide
      */
     public void update(LogitechGamepad gamepad, boolean enableSustain, /*double maxDistance,*/ double counterPower) {
         double position = gamepad.getLeftYAxis();
-        SmartDashboard.putNumber("Position of joystick", position);
-        // setLimit(maxDistance);
+        double height = encoder.getDistance();
+        double power = Math.min(Math.abs(position), .75) * Math.signum(position);        // setLimit(maxDistance);
         // absoluteMode(position, true);
+
+        SmartDashboard.putNumber("Position of joystick", position);
+        SmartDashboard.putBoolean("limitSwitch Value", bottom.isPressed());
+        SmartDashboard.putNumber("height", height);
+
         if(((-0.006 < position) && (position < 0.006)) && enableSustain) {
-            double height = encoder.getDistance();
-            motorSet.set(0);
+            // motorSet.set(0);
             SmartDashboard.putNumber("Encoder count", encoder.get());
             SmartDashboard.putNumber("Height of lift", height);
             //run the motors to sustain the last position while the joystick reading returns "0"
@@ -72,7 +76,16 @@ public class LinearSlide
                 }
             // } while ((-0.006 < position) && (position < 0.006));
         } else {
-            motorSet.set(position);
+            if ((!bottom.isPressed()) && (height < maxRange)) {
+                motorSet.set(position);
+            }
+            else {
+                if ((bottom.isPressed() && position < 0) || (height > maxRange && position > 0)) {
+                    motorSet.set(position);
+                } else {
+                    motorSet.set(0);
+                }
+            }
         }
     }
     /**
