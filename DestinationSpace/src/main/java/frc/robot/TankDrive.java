@@ -74,6 +74,6 @@ public class TankDrive
     }
 
     public double applyCurve(double x) {
-        return x * x;
+        return x * x * Math.signum(x);
     }
 }
