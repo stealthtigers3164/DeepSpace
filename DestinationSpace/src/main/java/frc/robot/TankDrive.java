@@ -72,4 +72,14 @@ public class TankDrive
         m_frontRight.set(right);
         m_backRight.set(right);
     }
+
+    public double applyCurve(double x) {
+        double in = x * 100;
+        SmartDashboard.putNumber("in", in);
+        double res = (1 / 1000) * (in * in);
+        SmartDashboard.putNumber("res", res);
+        res /= 10;
+        SmartDashboard.putNumber("res", res);
+        return res;
+    }
 }

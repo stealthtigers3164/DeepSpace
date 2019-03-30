@@ -50,22 +50,22 @@ public class Robot extends TimedRobot
     camera.getInstance().startAutomaticCapture(0);
     // camera.getInstance().startAutomaticCapture(1);
 
-    linear = new LinearSlide(0, 1, true, 0, 1, true, 0.1461);
+    linear = new LinearSlide(0, 1, true, 0, 1, true, 0.1461, 4);
     prefs = Preferences.getInstance(); 
     slidePower = prefs.getDouble("Slide Power", 0.0125);
 
-    // arm = new Arm(4);
-    // intake = new Intake(3, 2);
-    // hatch = new Hatch(4, 5);
+    arm = new Arm(4);
+    intake = new Intake(3, 2);
+    hatch = new Hatch(4, 5);
     compressor = new Compressor(0);
     compressor.setClosedLoopControl(true);
-    // climb = new Climb(0, 1, 2); //definitely change these
-    // alignment = new AutoAlign(linear, intake, hatch, arm);
+    climb = new Climb(0, 1, 2); //definitely change these
+    alignment = new AutoAlign(linear, intake, hatch, arm);
   }
 
   @Override
-  public void robotPeriodic() 
-  {
+  public void robotPeriodic() {
+    // limelight.ledOn(false);
   }
 
   @Override
@@ -74,18 +74,18 @@ public class Robot extends TimedRobot
   }
 
   public void update() {
-    // hatch.reset();
+    hatch.reset();
 
     linear.update(gamepad2);
     // linear.update(gamepad2, true, slidePower);
     // SmartDashboard.putString("update", "update");    
-    // arm.update(gamepad2);
+    arm.update(gamepad2);
 
-    // intake.update(gamepad2);
-    // hatch.update(gamepad2);
-    // alignment.update(gamepad1);
-    // climb.update(gamepad1);
-    // limelight.setCameraMode(true);
+    intake.update(gamepad2);
+    hatch.update(gamepad2);
+    alignment.update(gamepad1);
+    climb.update(gamepad1);
+    limelight.setCameraMode(true);
     tank.update(gamepad1, gamepad1.isXDown());
   }
 
