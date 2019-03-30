@@ -51,8 +51,8 @@ public class TankDrive
             }
         }
 
-        double rightY = Math.signum(gamepad.getRightXAxis()) * Math.min(Math.abs(gamepad.getRightXAxis()), .75);
-        double leftX = gamepad.getLeftYAxis();
+        double rightY = Math.signum(gamepad.getRightXAxis()) * Math.min(Math.abs(applyCurve(gamepad.getRightXAxis())), .75);
+        double leftX = applyCurve(gamepad.getLeftYAxis());
       
         double leftPowerRaw = rightY - leftX;
         double rightPowerRaw = rightY + leftX;
@@ -74,12 +74,6 @@ public class TankDrive
     }
 
     public double applyCurve(double x) {
-        double in = x * 100;
-        SmartDashboard.putNumber("in", in);
-        double res = (1 / 1000) * (in * in);
-        SmartDashboard.putNumber("res", res);
-        res /= 10;
-        SmartDashboard.putNumber("res", res);
-        return res;
+        return x * x;
     }
 }

@@ -85,11 +85,9 @@ public class LinearSlide
         double height = encoder.getDistance();
         SmartDashboard.putNumber("height", height);
         SmartDashboard.putBoolean("limitSwitch Value", bottom.isPressed());
-        double power = Math.min(Math.abs(position), .5);
-        power *= Math.signum(power);
-        if ((!bottom.isPressed()) &&
-            (height < maxRange))
-        {
+        double power = Math.min(Math.abs(position), .75) * Math.signum(position);
+        
+        if ((!bottom.isPressed()) && (height < maxRange)) {
             motorSet.set(position);
         }
         else {
