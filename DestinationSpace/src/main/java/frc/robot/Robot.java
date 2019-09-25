@@ -32,7 +32,7 @@ public class Robot extends TimedRobot
   private Arm arm;
   private Intake intake;
   private Hatch hatch;
-  private Climb climb;
+  // private Climb climb;
 
   private AutoAlign alignment;
   private CameraServer camera;
@@ -59,7 +59,7 @@ public class Robot extends TimedRobot
     hatch = new Hatch(4, 5);
     compressor = new Compressor(0);
     compressor.setClosedLoopControl(true);
-    climb = new Climb(0, 1, 2); //definitely change these
+    // climb = new Climb(0, 1, 2); //definitely change these
     alignment = new AutoAlign(linear, intake, hatch, arm);
   }
 
@@ -84,7 +84,7 @@ public class Robot extends TimedRobot
     intake.update(gamepad2);
     hatch.update(gamepad2);
     alignment.update(gamepad1);
-    climb.update(gamepad1);
+    // climb.update(gamepad1);
     limelight.setCameraMode(true);
     tank.update(gamepad1, gamepad1.isXDown());
   }
